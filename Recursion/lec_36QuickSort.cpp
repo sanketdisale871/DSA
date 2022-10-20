@@ -49,7 +49,10 @@ void QuickSort(int *arr,int s,int e){
     
     int p= partition(arr,s,e); // it return the pivot element indext 
     
+// left part ko sort kar de
     QuickSort(arr,s,p-1);
+    
+  // right part ko sort kar de
     QuickSort(arr,p+1,e);
 }
 
