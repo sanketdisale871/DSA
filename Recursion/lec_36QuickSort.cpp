@@ -1,77 +1,75 @@
-#include<bits/stdc++.h>
-
+#include<iostream>
 using namespace std;
 
-int partition(int *arr,int s,int e){
-    // Pivot element 
+
+int partition( int arr[], int s, int e) {
+
     int pivot = arr[s];
-    
-    //Place pivot element at right position
-    int cnt =0;
-    for(int i=s+1;i<=e;i++){
-        if(arr[i]<pivot){ // the element smaller than pivot
+
+    int cnt = 0;
+    for(int i = s+1; i<=e; i++) {
+        if(arr[i] <=pivot) {
             cnt++;
         }
     }
-    
-    int pivotIndex = cnt+s; // finding right position for pivot element
-    swap(arr[s],arr[pivotIndex]); 
-    
-    /* right and left part pivot element ka sambhal lo means left part mai less than pivot and right part mai greater than pivot */
-    
-    int i=s;
-    int j = e;
-    while(i<pivotIndex && j>pivotIndex){
-        
-        while(arr[i]<=pivot){
+
+    //place pivot at right position
+    int pivotIndex = s + cnt;
+    swap(arr[pivotIndex], arr[s]);
+
+    //left and right wala part smbhal lete h 
+    int i = s, j = e;
+
+    while(i < pivotIndex && j > pivotIndex) {
+
+        while(arr[i] <= pivot) 
+        {
             i++;
         }
-        
-        while(arr[j]>pivot){
+
+        while(arr[j] > pivot) {
             j--;
         }
-        
-        if(i<pivotIndex && j>pivotIndex){
-            swap(arr[i++],arr[j--]);
+
+        if(i < pivotIndex && j > pivotIndex) {
+            swap(arr[i++], arr[j--]);
         }
+
     }
+
     return pivotIndex;
-    
-    
+
 }
 
-void QuickSort(int *arr,int s,int e){
-    
-    // base condition
-    if(s>=e){
+void quickSort(int arr[], int s, int e) {
+
+    //base case
+    if(s >= e) 
         return ;
-    }
-    
-    int p= partition(arr,s,e); // it return the pivot element indext 
-    
-// left part ko sort kar de
-    QuickSort(arr,s,p-1);
-    
-  // right part ko sort kar de
-    QuickSort(arr,p+1,e);
+
+    //partitioon karenfe
+    int p = partition(arr, s, e);
+
+    //left part sort karo
+    quickSort(arr, s, p-1);
+
+    //right wala part sort karo
+    quickSort(arr, p+1, e);
+
 }
 
-int main(){
-    
-    int n;cin>>n;
-    
-    int *arr = new int[n];
-    
-    for(int i=0;i<n;i++){
-        cin>>arr[i];
-    }
-    
-    QuickSort(arr,0,n-1);
-    cout<<"\nPrint element of array :\n";
-    for(int i=0;i<n;i++){
-        cout<<arr[i]<<" ";
-    }
-    cout<<endl;
-    
-    
+int main() {
+
+    int arr[10] = {2,4,1,6,9 ,9,9,9,9,9};
+    int n = 10;
+
+    quickSort(arr, 0, n-1);
+
+    for(int i=0; i<n; i++) 
+    {
+        cout << arr[i] << " ";
+    } cout << endl;
+
+
+    return 0;
 }
