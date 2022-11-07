@@ -34,5 +34,55 @@ int main(){
     
     
     
+    /// printing speciffic row of pascals triangle
+    
+    class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        
+        vector<int>ans;
+        
+        int i = rowIndex;
+        int value = 1;
+        
+        for(int j=0;j<=i;j++){
+            ans.push_back(value);
+            value=value*1LL*(i-j) / (j+1) ;
+        }
+        return ans;
+    }
+};
+    
+    
+  // printing speciffic element of given row and column
+    
+    #include<bits/stdc++.h>
+
+using namespace std;
+
+int main(){
+    
+    int row =4;
+    int col = 3;
+    
+    int i = row-1;
+    int j = col -1;
+    
+    int val = 1;
+    
+    for(int jj=0;jj<j;jj++){
+        
+        val = val * (i-jj) / (jj+1) ;
+    }
+    
+    cout<<val<<endl;
+    
+    return 0;
+}
+    
+    
+    
+    
+    
     return 0;
 }
