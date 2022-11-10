@@ -12,18 +12,24 @@ public:
         }
 
         // checking it's digit or not if not digit the capitalize this letter
-        if(s[index]>='0' && s[index]<='9'){
+        if(isdigit(s[index])){
             temp.push_back(s[index]);
             solve(s,temp,index+1);
             temp.pop_back();
         }else{
 
-            char uppch = s[index] & '_';
+             /* First choice to capitalize the given letter*/
+
+            // char uppch = s[index] & '_';
+            char uppch = toupper(s[index]);
             temp.push_back(uppch);
             solve(s,temp,index+1);
             temp.pop_back();
 
-            char lowch = s[index] | ' ';
+            /* Second choice to lowerize the given letter*/
+
+            // char lowch = s[index] | ' ';
+            char lowch = tolower(s[index]);
             temp.push_back(lowch);
             solve(s,temp,index+1);
             temp.pop_back();
