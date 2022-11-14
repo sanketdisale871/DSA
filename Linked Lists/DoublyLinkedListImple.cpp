@@ -146,9 +146,10 @@ void deleteNode(int posi,Node* &head,Node* &tail){
     }
 
     // jar middle wali position asel tar
-    Node* aageCurr = curr->next;
+//     Node* aageCurr = curr->next;
     pvs->next = curr->next;
-    aageCurr->prev=pvs;
+//     aageCurr->prev=pvs; this replaces by next line
+    curr->next->prev=pvs;
 
     // nall karke delete mardo
     curr->next=NULL;
