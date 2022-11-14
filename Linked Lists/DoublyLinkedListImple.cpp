@@ -19,7 +19,7 @@ class Node{
 
     /* Destructor */
 
-    Node(){
+    ~Node(){
         int val = this->data;
 
         if(this->next != NULL && this->prev !=NULL){
