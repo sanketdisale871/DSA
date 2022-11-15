@@ -39,6 +39,33 @@ struct Node {
 class Solution{
     public:
     
+    Node* solve(Node* head){
+        
+        // if list is empty or one element in it the return head as its
+        if(head==NULL || head->next == NULL){
+            return head;
+        }
+        else if(head->next->next == NULL){ // if list contain two elemes the return second elem
+            return head->next; 
+        }else{ // our alogo
+        
+        Node* slow = head;
+        Node* fast = head->next;
+        
+        while(fast!=NULL){
+            fast=fast->next;
+            
+            if(fast!=NULL){
+                fast=fast->next;
+            }
+            slow = slow->next;
+        }
+        
+        return slow;
+            
+        }
+    }
+    
     int getLength(Node* &head){
         
         Node* temp = head;
@@ -54,7 +81,7 @@ class Solution{
     /* Should return data of middle node. If linked list is empty, then  -1*/
     int getMiddle(Node *head)
     {
-        // Your code here
+       /* approch - 1 (O(n))
         
         int length = getLength(head)+1;
         
@@ -66,6 +93,11 @@ class Solution{
            
         }
         return temp->data;
+        */
+        
+        /* Approch - 2 O(log n) */
+        
+        return solve(head)->data;
         
     }
 };
