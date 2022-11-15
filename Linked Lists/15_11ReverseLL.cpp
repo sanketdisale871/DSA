@@ -1,0 +1,140 @@
+//{ Driver Code Starts
+//Initial Template for C++// C program to find n'th Node in linked list
+#include <stdio.h>
+#include <stdlib.h>
+#include<iostream>
+using namespace std;
+
+/* Link list Node */
+struct Node {
+    int data;
+    struct Node *next;
+    Node(int x)
+    {
+        data = x;
+        next = NULL;
+    }
+};
+
+
+
+// } Driver Code Ends
+/* Linked List Node structure:
+
+struct Node
+{
+    int data;
+    struct Node *next;
+}
+
+*/
+
+class Solution
+{
+    public:
+    
+    void solve(Node* &head,Node* curr,Node* prev){
+        
+        // Base case : if we traversad while ll
+        if(curr==NULL){
+            head = prev;
+            return;
+        }
+        
+        // hypothesis
+        solve(head,curr->next,curr);
+        
+        //induction
+        curr->next = prev;
+    }
+    
+    //Function to reverse a linked list.
+    struct Node* reverseList(struct Node *head)
+    {
+        // code here
+        // return head of reversed list
+        
+        /* Iterative Appraoch 
+        
+        // if linked list have empty or contail only one node
+        if(head==NULL || head->next == NULL){
+            return head;
+        }else{
+            
+        Node* curr = head;
+        Node* prev = NULL;
+        Node* forward = NULL;
+        
+        while(curr!=NULL){
+            forward=curr->next;
+            curr->next =prev;
+            prev=curr;
+            curr=forward;
+        }
+        return prev;
+        */
+        
+        /* Recursive Approach */
+        
+        Node* curr = head;
+        Node* prev = NULL;
+        
+        solve(head,curr,prev);
+        
+        return head;
+            
+        }
+        
+        
+    
+    
+};
+    
+
+
+//{ Driver Code Starts.
+
+void printList(struct Node *head)
+{
+    struct Node *temp = head;
+    while (temp != NULL)
+    {
+       printf("%d ", temp->data);
+       temp  = temp->next;
+    }
+}
+
+/* Driver program to test above function*/
+int main()
+{
+    int T,n,l,firstdata;
+    cin>>T;
+
+    while(T--)
+    {
+        struct Node *head = NULL,  *tail = NULL;
+
+        cin>>n;
+        
+        cin>>firstdata;
+        head = new Node(firstdata);
+        tail = head;
+        
+        for (int i=1; i<n; i++)
+        {
+            cin>>l;
+            tail->next = new Node(l);
+            tail = tail->next;
+        }
+        
+        Solution ob;
+        head = ob. reverseList(head);
+        
+        printList(head);
+        cout << endl;
+    }
+    return 0;
+}
+
+
+// } Driver Code Ends
