@@ -61,8 +61,6 @@ public:
             curr=curr->next;
         }
 
-        return ptr;       
-
-       
+        return ptr;   
     }
 };
