@@ -29,7 +29,42 @@ public:
     
     vector<int> postorderTraversal(TreeNode* root) {
         
-        postOrder(root);
+        /* Recursive approach*/
+        // postOrder(root);
+        
+        /* Iterative Approach */
+        
+        stack<TreeNode*>st1;
+        stack<int>st2;
+        
+        if(root==NULL){
+            return ans;
+        }
+        
+        st1.push(root);
+        
+        while(!st1.empty()){
+            
+            TreeNode* node = st1.top();
+            st1.pop();
+            
+            st2.push(node->val);
+            
+            if(node->left){
+                st1.push(node->left);
+            }
+            
+            if(node->right){
+                st1.push(node->right);
+            }
+            
+        }
+        
+        while(!st2.empty()){
+            int elem = st2.top();
+            st2.pop();            
+            ans.push_back(elem);
+        }
         
         return ans;
             
