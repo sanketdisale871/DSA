@@ -1,0 +1,55 @@
+const int N = 1e6+1;
+class Solution {
+    // DSA Student : Sanket Disale
+
+    /* It Returns the Prime factors of a number */
+    vector<int>PrimeFactors(int n){
+        vector<int>factors;
+
+        for(int i =2;i*i<=n;i++){
+
+            while(n%i == 0){
+                factors.push_back(i);
+                n=n/i;
+            }
+        }
+        if(n>1){
+            factors.push_back(n);
+        }
+        return factors;
+    }
+
+public:
+    int findValidSplit(vector<int>& nums) {
+        int n= nums.size();
+
+    /* Storing the last index of a given number prime factor occurance*/
+        vector<int>last_factor_ind(N);
+
+        for(int i=0;i<n;i++){
+            vector<int>factors = PrimeFactors(nums[i]);
+
+            for(auto f : factors){
+                last_factor_ind[f]=i;
+            }
+        }
+
+        int it =0;
+        int result_ind = 0;
+/*Traversing the it until , left part of the array are no longer present in the right part of the array. */
+        while(it<=result_ind){
+            vector<int>factors = PrimeFactors(nums[it]);
+
+            for(auto f : factors){
+               result_ind = max(result_ind,last_factor_ind[f]);
+            }
+            it++;
+        }
+
+        if(it == n){
+            return -1;
+        }
+        return it-1;
+
+    }
+};
