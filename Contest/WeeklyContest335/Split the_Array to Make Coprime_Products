@@ -1,6 +1,6 @@
 const int N = 1e6+1;
 class Solution {
-    // DSA Student : Sanket Disale
+     // DSA Student : Sanket Disale
 
     /* It Returns the Prime factors of a number */
     vector<int>PrimeFactors(int n){
