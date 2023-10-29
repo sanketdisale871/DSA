@@ -3,25 +3,26 @@ class Node{
     Node* children[26];
     bool endOfWord = false;
 
-    bool containsKey(char ch){
-        return (children[ch-'a']!= NULL);
+    bool isContainsKey(char ch){
+        return (children[ch-'a']!=NULL);
     }
 
-    void put(char ch,Node *node){
+    void putKey(char ch,Node *node){
         children[ch-'a']=node;
     }
 
-    Node* get(char ch){
+    Node* getKey(char ch){
         return children[ch-'a'];
     }
 
     void setEnd(){
-        endOfWord = true;
+        endOfWord=true;
     }
 
     bool isEnd(){
         return endOfWord;
     }
+
 };
 
 class Trie {
@@ -36,34 +37,35 @@ public:
         Node* node = root;
 
         for(int i=0;i<word.length();i++){
-            if(!node->containsKey(word[i])){
-                node->put(word[i],new Node());
+
+            if(!node->isContainsKey(word[i])){
+                node->putKey(word[i],new Node());
             }
-            node = node->get(word[i]);
+            node = node->getKey(word[i]);
         }
         node->setEnd();
     }
     
     bool search(string word) {
-        Node* node =root;
+        Node* node = root;
 
         for(int i=0;i<word.length();i++){
-            if(!node->containsKey(word[i])){
+            if(!node->isContainsKey(word[i])){
                 return false;
             }
-            node = node->get(word[i]);
+            node = node->getKey(word[i]);
         }
-        return node->isEnd();
+        return node->endOfWord;
     }
     
     bool startsWith(string prefix) {
         Node* node = root;
 
-        for(int i=0;i<prefix.length();i++){
-            if(!node->containsKey(prefix[i])){
+        for(int i=0;i<prefix.size();i++){
+            if(!node->isContainsKey(prefix[i])){
                 return false;
             }
-            node = node->get(prefix[i]);
+            node = node->getKey(prefix[i]);
         }
         return true;
     }
