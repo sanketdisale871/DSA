@@ -18,7 +18,7 @@ public:
                 j++;
             }
             else{
-                while(((j-i+1)-maxiOccur >k) && i<=j){
+                if(((j-i+1)-maxiOccur >k) && i<=j){
                     um[answerKey[i]]--;
                     i++;
                 }
