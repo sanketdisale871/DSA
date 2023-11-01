@@ -12,32 +12,41 @@
 class Solution {
     private:
 
-    void traverseTree(TreeNode* root, unordered_map<int,int> &um,int &maxOccur){
+    int prevNum = INT_MIN,currFreq = 0,maxFreq = 0;
+
+    void traverseTree(TreeNode* root, vector<int>&ans){
         // base case
         if(root == NULL){
             return ;
         }
 
-        traverseTree(root->left,um,maxOccur);
+        traverseTree(root->left,ans);
 
-        um[root->val]++;
-        maxOccur = max(maxOccur,um[root->val]);
+        if(prevNum == root->val){
+            currFreq++;
+        }
+        else{
+            currFreq = 1;
+            prevNum = root->val;
+        }
 
-        traverseTree(root->right,um,maxOccur);
+        if(currFreq > maxFreq){
+            ans.clear();
+            maxFreq = currFreq;
+            ans.push_back(root->val);
+        }
+        else if(currFreq == maxFreq){
+            ans.push_back(root->val);
+        }
+
+        traverseTree(root->right,ans);
     }
+
 public:
     vector<int> findMode(TreeNode* root) {
         vector<int>ans;
-        unordered_map<int,int>um;
-        int maxOccur = 1;
+        traverseTree(root,ans);
 
-        traverseTree(root,um,maxOccur);
-
-        for(auto it : um){
-            if(it.second == maxOccur){
-                ans.push_back(it.first);
-            }
-        }
         return ans;
     }
 };
