@@ -11,40 +11,39 @@
  */
 class Solution {
     private:
+
+    // pair<sum,cnt> 
+
     int ans = 0;
-
-    int sum(TreeNode* root,int &cnt){
+    pair<int,int> solve(TreeNode* root){
         // Base case
         if(root == NULL){
-            return 0;
-        }
-        cnt++;
-        int left = sum(root->left,cnt);
-        int right = sum(root->right,cnt);
-
-        return root->val + left + right;
-    }
-
-    void solve(TreeNode* root){
-        // Base case
-        if(root == NULL){
-            return;
+            return {0,0};
         }
 
-        int cnt = 0;
-        int avg = sum(root,cnt)/cnt;
-        if(avg == root->val){
+        auto left = solve(root->left);
+        int leftSum = left.first;
+        int leftCnt = left.second;
+
+        auto right = solve(root->right);
+        int rightSum = right.first;
+        int rightCnt = right.second;
+
+        int sum = leftSum + rightSum + root->val;
+        int cnt = leftCnt + rightCnt + 1;
+
+        if(root->val == (sum/cnt)){
             ans++;
         }
 
-        solve(root->left);
-        solve(root->right);
+        return {sum,cnt};
     }
-
 public:
     int averageOfSubtree(TreeNode* root) {
         ans = 0;
+
         solve(root);
-        return ans;
+
+        return ans;  
     }
 };
