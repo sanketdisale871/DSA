@@ -7,45 +7,23 @@ public:
             return *max_element(arr.begin(),arr.end());
         }
 
-        deque<int>dq;
+        int currWin = arr[0];
+        int conse = 0;
 
-        for(auto it : arr){
-            dq.push_back(it);
-        }
-
-        int cnt=0,prev = -1;
-        while(1){
-            int num1 = dq.front();dq.pop_front();
-            int num2 = dq.front();dq.pop_front();
-
-            int maxi = max(num1,num2);
-
-            if(maxi == prev){
-                cnt++;
-                if(cnt == k){
-                    return maxi;
-                }
+        for(int i=1;i<n;i++){
+            if(arr[i]>currWin){
+                currWin = arr[i];
+                conse = 1;
             }
             else{
-                prev = maxi;
-                cnt = 1;
-
-                if(cnt == k){
-                    return maxi;
-                }
+                conse++;
             }
 
-            if(maxi==num1){
-                dq.push_front(num1);
-                dq.push_back(num2);
+            if(conse==k){
+                return currWin;
             }
-            else{
-                dq.push_front(num2);
-                dq.push_back(num1);
-            }
-
         }
 
-        return -1;
+        return currWin;
     }
 };
