@@ -19,8 +19,10 @@ public:
                 j++;
             }
             else{
-                um[s[i]]--;
-                i++;
+                while((j-i+1)-maxiOccur>k && i<=j){
+                    um[s[i]]--;
+                    i++;
+                }
                 j++;
             }
         }
