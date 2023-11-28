@@ -1,18 +1,19 @@
 class Solution {
 public:
     int divide(int dividend, int divisor) {
-        // Edge Case
+        
+        // Edge case
         if(dividend==divisor){
             return 1;
         }
 
-        bool isPositive = (dividend<0 && divisor<0) || (dividend>0 && divisor>0) ? true : false;
+        bool isPositive = (dividend<0 && divisor>0) || (dividend>0 && divisor<0)?false : true;
 
         unsigned int a = abs(dividend);
         unsigned int b = abs(divisor);
 
+        
         unsigned int ans = 0;
-
         while(a>=b){
             int cnt = 0;
 
@@ -20,13 +21,18 @@ public:
                 cnt++;
             }
 
-            ans+=(1<<cnt);
-            a-=(b<<(cnt));
+            ans +=(1<<cnt);
+            a-=(b<<cnt);
         }
 
-        if(ans == (1<<31) and isPositive){
+        if( isPositive && ans==(1<<31)){
             return INT_MAX;
         }
-        return isPositive ? ans : -ans;
+
+        if(!isPositive && ans==(1<<31)){
+            return INT_MIN;
+        }
+
+        return isPositive?ans:-ans;
     }
 };
