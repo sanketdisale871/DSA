@@ -19,6 +19,11 @@ public:
             }
             else{
                 if(((j-i+1)-maxiOccur >k) && i<=j){
+                    
+                    if(maxiOccur == um[answerKey[i]]){
+                        maxiOccur--;
+                    }
+
                     um[answerKey[i]]--;
                     i++;
                 }
