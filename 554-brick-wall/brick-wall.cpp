@@ -6,23 +6,18 @@ typedef long long int ll;
 
         int m = wall.size();
 
-        int sum = accumulate(wall[0].begin(),wall[0].end(),0);
-
         ll maxiCrack = 0;
 
         for(int i=0;i<m;i++){
-            ll currSum = 0;
+            ll crackDist = 0;
 
-            for(int j=0;j<wall[i].size();j++){
-                currSum+=wall[i][j];
+            for(int j=0;j<wall[i].size()-1;j++){ // Not traversing last brick
 
-                if(currSum==sum){
-                    continue;
-                }
+                crackDist+=wall[i][j];
 
-                um[currSum]++;
+                um[crackDist]++;
 
-                maxiCrack=max(maxiCrack,um[currSum]);
+                maxiCrack=max(maxiCrack,um[crackDist]);
             }
         }
 
