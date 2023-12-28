@@ -3,6 +3,10 @@ class Solution {
     vector<int>drow ={-1,1,0,0};
     vector<int>dcol ={0,0,1,-1};
 
+    bool isValid(int x,int y,int m,int n){
+        return x>=0 && x<m && y>=0 && y<n;
+    }
+
     bool isSafe(int mid,vector<vector<int>>&dist,int m,int n){
         if(dist[0][0]<mid){
             return false;
@@ -26,10 +30,12 @@ class Solution {
                 int newX = x + drow[i];
                 int newY = y + dcol[i];
 
-                if((newX>=0 && newX<m) && (newY>=0 && newY<n) && !vis[newX][newY]){
+                if(isValid(newX,newY,m,n)&& !vis[newX][newY]){
+                    
                     if(dist[newX][newY]<mid){
                         continue;
                     }
+
                     q.push({newX,newY});
                     vis[newX][newY]=1;
                 }
@@ -52,16 +58,13 @@ public:
         int n = grid[0].size();
 
         vector<vector<int>>dist(m,vector<int>(n,1e9));
-        vector<vector<int>>vis(m,vector<int>(n,0));
+ 
         queue<pair<int,int>>q;
 
         for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                
+            for(int j=0;j<n;j++){ 
                 if(grid[i][j]==1){
                     dist[i][j]=0;
-                    vis[i][j]=1;
-
                     q.push({i,j});
                 }
             }
@@ -78,12 +81,10 @@ public:
                 int newX = x + drow[i];
                 int newY = y + dcol[i];
 
-                if((newX>=0 && newX<m) && (newY>=0 && newY<n) && (!vis[newX][newY])){
+                if(isValid(newX,newY,m,n)){
                     
                     if(dist[x][y]+1<dist[newX][newY]){
                         dist[newX][newY]=dist[x][y]+1;
-                        vis[newX][newY]=1;
-
                         q.push({newX,newY});
                     }
                 }
@@ -107,9 +108,6 @@ public:
            }
        }
 
-
         return ans;
-
-       
     }
 };
