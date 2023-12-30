@@ -1,10 +1,22 @@
 class Solution {
 public:
     bool makeEqual(vector<string>& words) {
-    int cnt[26] = {};
-    for (auto &w : words)
-        for (auto ch : w)
-            ++cnt[ch - 'a'];
-    return all_of(begin(cnt), end(cnt), [&](int c) { return c % words.size() == 0; });
-}
+        unordered_map<char,int>um;
+        int n = words.size();
+
+        for(auto it:words){
+            for(int i=0;i<it.length();i++){
+                um[it[i]]++;
+            }
+        }
+
+        for(auto it:um){
+            if(it.second % n != 0){
+                return false;
+            }
+        }
+        return true;
+
+
+    }
 };
