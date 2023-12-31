@@ -6,7 +6,6 @@ class Solution {
         if(a%b == 0){
             return b;
         }
-
         return gcd(b,a%b);
     }
 
@@ -21,13 +20,16 @@ class Solution {
     }
 
     bool checkPossible(ll m,ll d1,ll d2,ll uc1,ll uc2,ll lcmm){
-        ll e1 =m-(m/d1);
-        ll e2=m-(m/d2);
-        ll c= m-(m/d1)-(m/d2)+(m/lcmm);
-
-    
-
+        ll e1 =m-(m/d1); // Not divisible by d1 
+        ll e2=m-(m/d2); // Not divisible by d2 
+        // LCM : Lowest Common Multiple of ( d1,d2 )
+        ll c = m-(m/d1)-(m/d2)+(m/lcmm);
+        // c => The element who does not divisible by d1,d2 
+        // Reason behind adding -> Common element which are not divisible by d1,d2 are substracted two times, so for this adding  
+        // m/cmmm -> No.of whose divisibe by (d1,d2)
         return e1>=uc1 && e2>=uc2 && (uc1+uc2 <= (e1+e2-c));
+
+        // e1+e2-c => Not divisible by d1 + Not divisible by d2 - (Not divisibel by d1,d2 becoz, it substracted two times adding once )
     }
 
 public:
