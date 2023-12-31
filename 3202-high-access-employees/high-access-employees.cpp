@@ -1,32 +1,40 @@
+
 class Solution {
 public:
-    typedef long long int ll;
-
+    // Function to find high-access employees based on access times.
     vector<string> findHighAccessEmployees(vector<vector<string>>& access_times) {
-        // If diff is less than 100 then these time is with the range of 1 hour.
-//Example : (0549 - 0532) < 100 so 0549 and 0432 these time are within 1 hour and also these times ////(0636 - 0549) < 100.
-        
-        vector<string>ans;
-        unordered_map<string,vector<ll>>um;
+        // Create a map to store access times for each employee.
+        map<string, vector<int>> when;
 
-        for(auto it : access_times){
-            um[it[0]].push_back(stoi(it[1]));
+        // Populate the map with access times from the input vector.
+        for (auto v : access_times) {
+            string a = v[0], b = v[1];
+            when[a].push_back(stoi(b));
         }
 
-        for(auto it:um){
-            vector<ll>arr = it.second;
+        // Vector to store the names of high-access employees.
+        vector<string> ret;
 
-            sort(arr.begin(),arr.end());
+        // Iterate through the map to check access patterns for each employee.
+        for (auto &[x, lst] : when) {
+            // Sort the access times for each employee.
+            sort(begin(lst), end(lst));
 
-            for(int i=2;i<arr.size();i++){
-                if(arr[i]-arr[i-2]<100){
-                    ans.push_back(it.first);
-                    break;
-                }
-            }
+            // Get the number of access times for the current employee.
+            int k = lst.size();
+
+            // Flag to indicate if the employee is a high-access employee.
+            bool flag = false;
+
+            // Check for consecutive accesses within a 100-minute window.
+            for (int i = 0; i + 3 <= k; ++i)
+                flag |= lst[i + 2] < lst[i] + 100;
+
+            // If the flag is true, the employee is considered high-access, and their name is added to the result.
+            if (flag) ret.push_back(x);
         }
 
-
-        return ans;
+        // Return the vector containing the names of high-access employees.
+        return ret;
     }
 };
