@@ -1,26 +1,43 @@
-#define ll long long
 class Solution {
-private:
-    int gcd(int a, int b) {
-        if (!b) return a;
-        return gcd(b, a % b);
-    }
-    int lcm(ll a, ll b) {
-        ll temp = (a / gcd(a, b)) * b;
-        return temp > INT_MAX ? INT_MAX : temp;
-    }
 public:
-    int minimizeSet(int divisor1, int divisor2, int uc1, int uc2) {
-        int l = 1, r = INT_MAX, LCM = lcm(divisor1, divisor2);
-        while (l <= r) {
-            int mid = l + (r - l) / 2;
-            int a = mid / divisor1, b = mid / divisor2;
-            if (uc1 <= mid - a && uc2 <= mid - b && uc1 + uc2 <= (mid - (mid / LCM))) {
-                r = mid - 1;
-            } else {
-                l = mid + 1;
+    long gcd(long a, long b)
+    {
+        if((a%b)==0){
+            return b;
+        }else{
+            return gcd(b, a%b);
+        }
+    }
+    
+    void bs(long l, long h, int divisor1, int divisor2, long lcm, long * ans, int c1, int c2){
+        if(l<=h){
+            long m=(l+h)/2;
+            
+            long a, b, c;
+            
+            a=m-(m/divisor1);
+            b=m-(m/divisor2);
+            c=m-(m/divisor1)-(m/divisor2)+(m/lcm);
+            
+            //cout<<m<<" "<<a<<" "<<b<<" "<<c<<"\n";
+            
+            if(a>=c1 && b>=c2 && a+b-c>=c1+c2){
+                (*ans)=m;
+                bs(l, m-1, divisor1, divisor2, lcm, ans, c1, c2);
+            }else{
+                bs(m+1, h, divisor1, divisor2, lcm, ans, c1, c2);
             }
         }
-        return l;
+    }
+    int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int uniqueCnt2) {
+        long g=gcd(max(divisor1, divisor2), min(divisor1, divisor2));
+        long l=(long(divisor1)*long(divisor2))/g;
+        
+        long ans=1000000000;
+        
+        bs(2, 10000000000, divisor1, divisor2, l, (&ans), uniqueCnt1, uniqueCnt2);
+        
+        return int(ans);
+        
     }
 };
