@@ -1,1 +1,1 @@
-<h2>minimize-the-maximum-of-two-arrays Notes</h2><hr>[ Time taken: 48 m 43 s ]
+<h2>minimize-the-maximum-of-two-arrays Notes</h2><hr>[ Time taken: 44 m 58 s ]
