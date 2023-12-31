@@ -18,7 +18,9 @@ public:
                 j++;                    
             }
             else{
-                while((j-i+1)-maxiOccur > k){
+                while((j-i+1)-maxiOccur > k && i<=j){
+                    
+
                     um[nums[i]]--;
                     i++;
                 }
