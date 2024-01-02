@@ -1,28 +1,26 @@
 class DataStream {
 public:
-typedef long long int ll;
-
-    int val,lst;
-    ll consCnt = 0;
-
+    int val;
+    int cnt = 0;
+    int streak;
     DataStream(int value, int k) {
-        this->val = value;
-        this->lst = k;
+        val = value;
+        streak = k;
     }
     
     bool consec(int num) {
- 
-        if(num == val){
-            consCnt++;
+        if(num== val){
+            cnt++;
         }
         else{
-            consCnt=0;
+            cnt=0;
         }
 
-        if(consCnt>=lst){
+        if(cnt>=streak){
             return true;
         }
-        return false;        
+
+        return false;
     }
 };
 
