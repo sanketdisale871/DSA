@@ -6,19 +6,18 @@ public:
         int n=nums.size();
         
         for(int i=0;i<n;i++){
+            vector<int>temp;
             int cnt = 0;
 
             for(int j=i;j<n;j++){
+                
                 if(nums[j]%p==0){
                     cnt++;
                 }
 
-                if(cnt<=k){
-                    vector<int>temp;
-                    for(int itr=i;itr<=j;itr++){
-                        temp.push_back(nums[itr]);
-                    }  
+                temp.push_back(nums[j]);
 
+                if(cnt<=k){
                     st.insert(temp);
                 }
                 else{
