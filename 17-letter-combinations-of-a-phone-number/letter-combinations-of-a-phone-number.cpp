@@ -1,41 +1,42 @@
 class Solution {
     private:
-    vector<string>ans;
-    unordered_map<int,string>um= {
-        {2,"abc"},
-        {3,"def"},
-        {4,"ghi"},
-        {5,"jkl"},
-        {6,"mno"},
-        {7,"pqrs"},
-        {8,"tuv"},
-        {9,"wxyz"}
+    unordered_map<char,string>um=
+    {
+        {'2',"abc"},
+        {'3',"def"},
+        {'4',"ghi"},
+        {'5',"jkl"},
+        {'6',"mno"},
+        {'7',"pqrs"},
+        {'8',"tuv"},
+        {'9',"wxyz"}
     };
+    vector<string>ans;
 
-    void solve(int ind,string &digits,string temp){
-        if(ind >= digits.size()){
+    void solve(int ind,string temp,string digits){
+        // Base case
+        if(ind>=digits.length()){
             ans.push_back(temp);
-            return ;
         }
 
-        int digit = digits[ind]-'0';
-        string res = um[digit];
+        string word = um[digits[ind]];
 
-        for(int i=0;i<res.length();i++){
-
-            solve(ind+1,digits,temp+res[i]);
-
+        for(int i=0;i<word.length();i++){
+            solve(ind+1,temp+word[i],digits);
         }
     }
+
 public:
     vector<string> letterCombinations(string digits) {
-        // Edge case
-        if(digits.size()==0){
+
+        if(digits.length()==0){
             return ans;
         }
 
-        string temp ="";
-        solve(0,digits,temp);
+        string temp="";
+
+        solve(0,temp,digits);
+
         return ans;
     }
 };
