@@ -3,9 +3,9 @@ public:
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
 
-        vector<int>dp(n+1,1);
+        vector<int>dp(n+1,1); // one element is always greater one
 
-        // dp[i] --> Maximu lenght [1 ...... i] 
+        // dp[i] --> Maximum length [1 ...... i] 
 
         for(int i=2;i<=n;i++){
             for(int j=i-1;j>=1;j--){
@@ -18,5 +18,7 @@ public:
         }
 
         return *max_element(dp.begin(),dp.end());
+
+        // T.C : O(n2 + n)  S.C : O(1)
     }
 };
