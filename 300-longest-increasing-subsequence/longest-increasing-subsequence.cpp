@@ -7,19 +7,7 @@ public:
 
         // dp[i] --> Maximum length [1 ...... i] 
 
-        // int maxi = 1;
-
-        // for(int i=2;i<=n;i++){
-        //     for(int j=i-1;j>=1;j--){
-
-        //         if(nums[i-1]>nums[j-1]){
-        //             dp[i]=max(dp[i],1+dp[j]);
-        //         }
-
-        //     }
-        // }
-
-
+        int maxi = 1;
 
         multiset<pair<int,int>>ml;
 
@@ -34,12 +22,14 @@ public:
                 it--;
                 dp[i]=max(dp[i],1+(*it).second);
             }
-            
+
+            maxi = max(maxi,dp[i]);
+
             ml.insert({nums[i-1],dp[i]});
         }
 
-        return *max_element(dp.begin(),dp.end());
+        return maxi;
 
-        // T.C : O(n2 + n)  S.C : O(1)
+        // T.C : O(n*log(n))  S.C : O(n)
     }
 };
