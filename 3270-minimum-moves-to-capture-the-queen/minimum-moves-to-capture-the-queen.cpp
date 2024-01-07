@@ -15,29 +15,26 @@ C] Only check for above four cases along with the check that the 3rd piece is no
 How to identify the bishop is in between of Rook and Queen : 
 
 i) in Horizontal way & Vertical way : (B-R)*(B-Q) < 0 Means Bishop is between of R and Q
-II0 
-
 */
 public:                          // a       b        c        d      e       f 
   int minMovesToCaptureTheQueen(int Rr, int Rc, int Br, int Bc, int Qr, int Qc) {
       // For Rook Wala Approach
     if(Rr == Qr || Rc == Qc){
-        if(Rr == Br &&((Bc-Rc)*(Bc-Qc)<0)){ // in between row sie
+        if(Rr == Br &&((Bc-Rc)*(Bc-Qc)<0)){ // Bishop row mai bich mai aa raha hai
             return 2;
         }
-        if(Rc==Bc && ((Br-Rr)*(Br-Qr)<0)){
-            return 2;
-        }
-        return 1;
-    }
-    // For Bishop Wala Approach 
-    if(abs(Qr-Br) == abs(Qc-Bc)){
-        if(abs(Rr-Br)==abs(Rc-Bc) && ((Rc-Bc)*(Rc-Qc))<0){
+        if(Rc==Bc && ((Br-Rr)*(Br-Qr)<0)){ // Bishop col mai bich mai aa raha hai 
             return 2;
         }
         return 1;
     }
-
+    // For Bishop Wala Approach : Bishop kb Ek move mai reach kar sakata hai Queen ko ?
+    if(abs(Qr-Br) == abs(Qc-Bc)){ // diagonal hai ma Bishop and Queen 
+        if(abs(Rr-Br)==abs(Rc-Bc) && ((Rc-Bc)*(Rc-Qc))<0){ // Rook bich mai aa raha hai
+            return 2;
+        }
+        return 1;
+    }
     return 2;
 }
 };
