@@ -1,46 +1,49 @@
 class Solution {
 public:
     typedef long long int ll;
+    
     int minimumBeautifulSubstrings(string s) {
-        // dp[i] ==> Minimum no.of Substring of string size 'i'.
-
+        ll dp[500]={1000};
+        
         ll n = s.length();
-
-
-        ll dp[500]={100}; // Max Intialising,, indicate, not possible for dp[i]
-
-
-        dp[0] = 0; // "101" => Whose string is valid so dp[3]=1
-
+        
+        // 0-length ke liye
+        dp[0]=0;
+        
+        // 1-length ke liye 
         if(s[0]=='0'){
-            dp[1]=100;
+            dp[1]=1000;
+            
+            if(s.length()==1){
+                return -1;
+            }
         }
         else{
             dp[1]=1;
         }
-
-        // here i, is itr for string ,, i+1 => dp index 
-        for(ll i=1;i<n;i++){
-            ll j = i;
-
-            ll answer = 100;
-            while(j>=0){
-                string str = s.substr(j,i-j+1);
-
-                unsigned long deci = stoi(str,0,2);
-
-                if(s[j]!='0' && 15625%deci == 0){
-                    answer = min(answer,dp[j]+1);
+        
+        for(ll j=2;j<=n;j++){
+            ll i = j;
+            ll res = 1e8;
+            
+            while(i>=1){
+                string temp = s.substr(i-1,j-i+1);
+                
+                unsigned long dece = stoi(temp,0,2);
+                
+                if(temp[0]!='0' && (15625 % dece) == 0){
+                    res = min(res,dp[i-1]+1);
                 }
-                j--;
+                i--;
             }
-
-            dp[i+1]=answer;
+            dp[j]=res;
         }
-
-        if(dp[n]==100){
+        
+        if(dp[n]==1e8){
             return -1;
         }
-        return dp[n];
+        else{
+            return (int)dp[n];
+        }        
     }
 };
