@@ -1,24 +1,24 @@
 class Solution {
 public:
+    typedef long long int ll;
     int characterReplacement(string s, int k) {
-        unordered_map<char,int>um;
-
-        int n = s.length();
-        int maxiOccur = 0;
-        int maxiLen = 0;
-
-        int i=0,j=0;
+        ll n = s.length();
+        ll i=0,j=0;
+        ll ans = 0;
+        unordered_map<char,ll>um;
+        ll maxiOccur = 0;
 
         while(j<n){
             um[s[j]]++;
 
             maxiOccur = max(maxiOccur,um[s[j]]);
 
-            if((j-i+1)-maxiOccur <=k){
-                maxiLen = max(maxiLen,j-i+1);
+            if((j-i+1)-maxiOccur<=k){
+                ans = max(ans,j-i+1);
                 j++;
             }
             else{
+                
                 while((j-i+1)-maxiOccur>k && i<=j){
                     um[s[i]]--;
                     i++;
@@ -26,6 +26,6 @@ public:
                 j++;
             }
         }
-        return maxiLen;
+        return ans;
     }
 };
