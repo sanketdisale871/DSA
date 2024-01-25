@@ -2,25 +2,25 @@ class Solution {
     private:
     typedef long long int ll;
 
-    ll cntAtMost(vector<int>& nums, int k){
+    ll countAtMost(vector<int>&nums,int k){
+        ll i=0,j=0,n = nums.size();
         ll ans = 0;
 
-        ll oddNums = 0;
-        ll i=0,j=0,n = nums.size();
+        ll currOdd = 0;
 
         while(j<n){
-            if(nums[j]&1){
-                oddNums++;
+            if((nums[j]&1)){
+                currOdd++;
             }
 
-            if(oddNums<=k){
+            if(currOdd<=k){
                 ans+=(j-i+1);
                 j++;
             }
             else{
-                while((oddNums>k) && i<=j){
-                    if(nums[i]&1){
-                        oddNums--;
+                while(currOdd>k && i<=j){
+                    if((nums[i]&1)){
+                        currOdd--;
                     }
                     i++;
                 }
@@ -28,13 +28,11 @@ class Solution {
                 j++;
             }
         }
-
         return ans;
     }
+
 public:
     int numberOfSubarrays(vector<int>& nums, int k) {
-        ll res = cntAtMost(nums,k)-cntAtMost(nums,k-1);
-
-        return (int)res;
+        return countAtMost(nums,k)-countAtMost(nums,k-1);
     }
 };
