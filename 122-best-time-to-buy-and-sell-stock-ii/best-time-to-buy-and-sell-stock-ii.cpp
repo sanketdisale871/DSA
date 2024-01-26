@@ -31,9 +31,18 @@ public:
     int maxProfit(vector<int>& prices) {
         ll n  = prices.size();
 
-        dp.assign(n+1,vector<ll>(3,-1));
+        // dp.assign(n+1,vector<ll>(3,-1));
 
-        ll b = 1;
-        return findPr(0,prices.size(),prices,b);
+        // ll b = 1;
+        // return findPr(0,prices.size(),prices,b);
+
+        ll pr = 0;
+
+        for(ll i=1;i<n;i++){
+            if(prices[i]>prices[i-1]){
+                pr+=(prices[i]-prices[i-1]);
+            }
+        }
+        return pr;
     }
 };
