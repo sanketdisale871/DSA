@@ -52,10 +52,9 @@ public:
 
         }
 
-        if(stInd != -1){
+        if(stInd!=-1){
             res = s.substr(stInd,minLen);
         }
-
         return res;
     }
 };
