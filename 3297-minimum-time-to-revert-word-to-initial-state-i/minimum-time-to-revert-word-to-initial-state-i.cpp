@@ -1,40 +1,39 @@
 class Solution {
 public:
-    int minimumTimeToInitialState(string wordd, int k) {
-       string word = wordd;
-        int t =0;
-        string temp = "";
+    int minimumTimeToInitialState(string ori, int k) {
+       string word = ori;
 
-        for(int i=0;i<k;i++){
-            temp.push_back('~');
-        }
+        int t =0;
 
         while(!word.empty() && word[0]!='~'){
-
-            word.erase(word.begin(),word.begin()+k);
-            word = word+temp;
+            
+            // Erasing the first 'k' characters
+            // word.erase(word.begin(),word.begin()+k);
+            word = word.substr(k) + string(k,'~');
             t++;
 
-            // Compare
+            // Compare the tow string
             int i=0;
-            for(;i<wordd.length();i++){
-                if(word[i]=='~'){
-                    continue;
-                }
-                else if(wordd[i]==word[i]){
-                    continue;
-                }
-                else{
+            for(;i<ori.length();i++){
+                // if(word[i]=='~'){
+                //     continue;
+                // }
+                // else if(wordd[i]==word[i]){
+                //     continue;
+                // }
+                // else{
+                //     break;
+                // }
+
+                /* One Condition */
+                if(word[i]!='~' && word[i]!=ori[i]){
                     break;
                 }
             }
 
-            if(i>=wordd.length()){
+            if(i>=ori.length()){
                 break;
             }
-
-            // cout<<"wrpd  : "<<word<<endl;
-            // t++;
         }
         return t; 
     }
