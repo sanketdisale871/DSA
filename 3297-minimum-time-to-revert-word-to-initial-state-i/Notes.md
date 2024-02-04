@@ -1,0 +1,1 @@
+<h2>minimum-time-to-revert-word-to-initial-state-i Notes</h2><hr>[ Time taken: 18 m 16 s ]
