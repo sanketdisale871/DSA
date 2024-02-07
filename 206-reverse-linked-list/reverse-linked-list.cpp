@@ -9,18 +9,6 @@
  * };
  */
 class Solution {
-    private:
-    ListNode* ans;
-    void revList(ListNode* head,ListNode* prev){
-        if(head ==NULL){
-            ans = prev;
-            return ;
-        }
-
-        revList(head->next,head);
-
-        head->next=prev;
-    }
 
 public:
     ListNode* reverseList(ListNode* head) {
@@ -29,8 +17,14 @@ public:
             return head;
         }
 
-        revList(head,NULL);
+        ListNode* newHead = reverseList(head->next);
 
-        return ans;
+        ListNode* front = head->next;
+
+        front->next = head;
+
+        head->next = NULL;
+
+        return newHead;
     }
 };
