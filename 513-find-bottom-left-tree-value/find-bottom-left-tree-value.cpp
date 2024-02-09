@@ -11,34 +11,29 @@
  */
 class Solution {
     private:
-    
+
+    void findLeft(TreeNode*root,int &height,int depth,int &ans){
+        if(root==NULL){
+            return ;
+        }
+        // base case
+        if(depth>height){
+            ans = root->val;
+            height = depth;
+        }
+
+        findLeft(root->left,height,depth+1,ans);
+
+        findLeft(root->right,height,depth+1,ans);
+    }
 public:
     int findBottomLeftValue(TreeNode* root) {
         int ans = -1;
+        int height = -1;
+        int depth = 0;
 
-        queue<TreeNode*>q;
-        q.push(root);
+        findLeft(root,height,depth,ans);
 
-        while(!q.empty())
-        {
-            int siz = q.size();
-
-            for(int i=0;i<siz;i++){
-                auto node = q.front();q.pop();
-
-                if(i==0){
-                    ans = node->val;
-                }
-
-                if(node->left){
-                    q.push(node->left);
-                }
-
-                if(node->right){
-                    q.push(node->right);
-                }
-            }
-        }
         return ans;
     }
 };
