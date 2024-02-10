@@ -43,7 +43,6 @@ public:
            }
            len++;
         }
-
         return (int)dp1[1][n];
     }
 };
