@@ -28,7 +28,14 @@ public:
         }
 
         bool leftWay =hasPathSum(root->left,targetSum-root->val); 
+        if(leftWay){
+            return true;
+        }
         bool rightWay =hasPathSum(root->right,targetSum-root->val); 
+
+        if(rightWay){
+            return true;
+        }
 
         return leftWay||rightWay;
     }
