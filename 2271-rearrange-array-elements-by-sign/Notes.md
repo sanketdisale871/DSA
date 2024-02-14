@@ -1,1 +1,1 @@
-<h2>rearrange-array-elements-by-sign Notes</h2><hr>[ Time taken: 6 m 18 s ]
+<h2>rearrange-array-elements-by-sign Notes</h2><hr>[ Time taken: 3 m 15 s ]
