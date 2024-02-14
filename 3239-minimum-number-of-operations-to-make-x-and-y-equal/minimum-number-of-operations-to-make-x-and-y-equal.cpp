@@ -2,7 +2,7 @@ class Solution {
 public:
     int minimumOperationsToMakeEqual(int x, int y) {
         if(x == y) return 0;
-        if(x < y) return y-x;
+        // if(x < y) return y-x;
         
         int operations = 0;
         queue<int> q;
