@@ -11,55 +11,65 @@
  */
 class Solution {
     private:
-    unordered_map<int,vector<int>>v; // Adjacancy List 
+    /*
+    Approach: 1) I will create the Graph from tree
+    2) Calculate the Time from StartNode, which one is maximum time that i have
+    */
+    unordered_map<int,vector<int>>um;
 
-    void createrGraph(TreeNode* root){
-        queue<pair<TreeNode*,int>>q; // pair<TreeNode,parent>
-        q.push({root,-1});
+    void createGraph(TreeNode*root){
+        queue<TreeNode*>q;
+        q.push(root);
 
         while(!q.empty()){
             auto it = q.front();q.pop();
-            auto node = it.first;
-            int par = it.second;
 
-            if(par!=-1){
-                v[par].push_back(node->val);
-                v[node->val].push_back(par);
+            if(it->left){
+                int u = it->val;
+                int v = it->left->val;
+
+                um[u].push_back(v);
+                um[v].push_back(u);
+
+                q.push(it->left);
             }
 
-            if(node->left){
-                q.push({node->left,node->val});
-            }
-            if(node->right){
-                q.push({node->right,node->val});
+            if(it->right){
+                int u = it->val;
+                int v = it->right->val;
+
+                um[u].push_back(v);
+                um[v].push_back(u);
+
+                q.push(it->right);
             }
         }
     }
 public:
     int amountOfTime(TreeNode* root, int start) {
-        createrGraph(root);
+        createGraph(root);
 
-        int t = 0;
-
-        unordered_map<int,bool>vis;
+        int time = 0;
+        unordered_set<int>vis;
         queue<pair<int,int>>q;
-        q.push({start,0});
-        vis[start]=true;
+        q.push({0,start});
+        vis.insert(start);
 
         while(!q.empty()){
             auto it = q.front();q.pop();
-            int node = it.first;
-            int cost = it.second;
 
-            t=max(t,cost);
+            int t = it.first;
+            int node = it.second;
 
-            for(auto it:v[node]){
-                if(!vis[it]){
-                    q.push({it,cost+1});
-                    vis[it]=true;
+            time = max(t,time);
+
+            for(auto it:um[node]){
+                if(vis.count(it)==0){
+                    q.push({t+1,it});
+                    vis.insert(it);
                 }
             }
         }
-        return t;
+        return time;
     }
 };
