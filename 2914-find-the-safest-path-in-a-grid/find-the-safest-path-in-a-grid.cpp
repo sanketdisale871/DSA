@@ -1,113 +1,102 @@
 class Solution {
     private:
-    vector<int>drow ={-1,1,0,0};
-    vector<int>dcol ={0,0,1,-1};
-
-    bool isValid(int x,int y,int m,int n){
-        return x>=0 && x<m && y>=0 && y<n;
-    }
-
-    bool isSafe(int mid,vector<vector<int>>&dist,int m,int n){
+    bool isPossible(int mid,vector<vector<int>>dist){
         if(dist[0][0]<mid){
             return false;
         }
 
-        vector<vector<int>>vis(m,vector<int>(n,0));
+        int m = dist.size();
+        int n = dist[0].size();
+
         queue<pair<int,int>>q;
         q.push({0,0});
-        vis[0][0]=1;
 
         while(!q.empty()){
             auto it = q.front();q.pop();
 
-            int x = it.first;int y = it.second;
+            int x = it.first;
+            int y = it.second;
 
             if(x==m-1 && y==n-1){
                 return true;
             }
 
+            int drow[] = {-1,1,0,0};
+            int dcol[]= {0,0,1,-1};
+
             for(int i=0;i<4;i++){
-                int newX = x + drow[i];
-                int newY = y + dcol[i];
+                int newX = x+drow[i];
+                int newY = y+dcol[i];
 
-                if(isValid(newX,newY,m,n)&& !vis[newX][newY]){
-                    
-                    if(dist[newX][newY]<mid){
-                        continue;
+                if((newX>=0 && newX<m) && (newY>=0 && newY<n)){
+                    if(dist[newX][newY]>=mid){
+                        q.push({newX,newY});
+                        dist[newX][newY]=INT_MIN;
                     }
-
-                    q.push({newX,newY});
-                    vis[newX][newY]=1;
                 }
             }
         }
         return false;
     }
-
 public:
     int maximumSafenessFactor(vector<vector<int>>& grid) {
-        
-        // Edge case
-        if(grid.size()==1){
-            return 0;
-        }
-
-        // Step 1:  Find the Minimum distance from theif
-        // Step 2 : By using binary search , check the maxiMum safeness factor
         int m = grid.size();
         int n = grid[0].size();
 
-        vector<vector<int>>dist(m,vector<int>(n,1e9));
- 
-        queue<pair<int,int>>q;
+        vector<vector<int>>dist(m,vector<int>(n,1e8));
+
+        // pair<cost,pair<x,y>>
+        queue<pair<int,pair<int,int>>>q;
 
         for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){ 
+            for(int j=0;j<n;j++){
                 if(grid[i][j]==1){
+                    q.push({0,{i,j}});
                     dist[i][j]=0;
-                    q.push({i,j});
                 }
             }
         }
 
+    
 
         while(!q.empty()){
             auto it = q.front();q.pop();
-            int x = it.first;
-            int y = it.second;
+            int x = it.second.first;
+            int y = it.second.second;
+            int cost = it.first;
 
+            int drow[]= {-1,1,0,0};
+            int dcol[] = {0,0,-1,1};
 
             for(int i=0;i<4;i++){
-                int newX = x + drow[i];
-                int newY = y + dcol[i];
+                int newX = x+drow[i];
+                int newY = y+dcol[i];
 
-                if(isValid(newX,newY,m,n)){
-                    
-                    if(dist[x][y]+1<dist[newX][newY]){
-                        dist[newX][newY]=dist[x][y]+1;
-                        q.push({newX,newY});
+                if((newX>=0 && newX<m) && (newY>=0 && newY<n)){
+                    if(cost+1<dist[newX][newY]){
+                        dist[newX][newY]=cost+1;
+                        q.push({cost+1,{newX,newY}});
                     }
                 }
             }
         }
 
-       // Step 2 : Binary Search on dist
-       int low = 0;
-       int high = INT_MAX-1;
-       int ans = -1;
+        int ans = -1;
 
-       while(low<=high){
-           int mid = low + (high-low)/2;
+        int low = 0;
+        int high = INT_MAX;
 
-           if(isSafe(mid,dist,m,n)){
-               ans = mid;
-               low = mid+1;
-           }
-           else{
-               high = mid-1;
-           }
-       }
+        while(low<=high){
+            int mid = low + (high-low)/2;
 
+            if(isPossible(mid,dist)){
+                ans = mid;
+                low = mid+1;
+            }
+            else{
+                high = mid-1;
+            }
+        }
         return ans;
     }
 };
