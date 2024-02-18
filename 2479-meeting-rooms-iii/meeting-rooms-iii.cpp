@@ -1,53 +1,59 @@
-class Solution
-{
+class Solution {
 public:
-    int mostBooked(int n, vector<vector<int>> &meetings)
-    {
-        vector<int> ans(n, 0);
-        priority_queue<int, vector<int>, greater<int>> available;
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> busy;
-        
-        // Initialize available rooms
-        for (int i = 0; i < n; i++)
-        {
-            available.push(i);
-        }
-        
-        // Sort meetings based on start time
-        sort(meetings.begin(), meetings.end());
+    typedef long long int ll;
+    int mostBooked(int n, vector<vector<int>>& meetings) {
+        sort(meetings.begin(),meetings.end());
 
-        // Iterate through meetings
-        for (auto &&meeting : meetings)
-        {
-            int start = meeting[0], end = meeting[1];
+        unordered_map<ll,ll>usedRoom;
+        priority_queue<ll,vector<ll>,greater<ll>>roomAvail;
 
-            // Update room availability based on current meeting start time
-            while (busy.size() > 0 && busy.top().first <= start)
-            {
-                available.push(busy.top().second);
-                busy.pop();
-            }
+        // pair<int,int> => pair<endTime,roomNo> 
+        priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>>roomMeetExce;
 
-            // Assign meeting to available room or update busy room
-            if (available.size() > 0)
-            {
-                int top = available.top();
-                ans[top]++;
-                available.pop(); 
-                busy.push({end, top});
-            }
-            else
-            {
-                auto top = busy.top();
-                int end1 = top.first, index = top.second;
-
-                ans[index]++;
-                busy.pop();
-                busy.push({top.first + end - start, index});
-            }
+        for(int i=0;i<n;i++){
+            roomAvail.push(i);
         }
 
-        // Find the index of the room with the maximum number of meetings
-        return max_element(ans.begin(), ans.end()) - ans.begin();
+        for(auto it:meetings){
+            ll st = it[0];
+            ll ed = it[1];
+
+            while(!roomMeetExce.empty() && roomMeetExce.top().first <=st){ // If any exisiting metting room can be end up before starting this current meeting
+                roomAvail.push(roomMeetExce.top().second);
+                roomMeetExce.pop();
+            }
+
+            // Room Available 
+            if(!roomAvail.empty()){ // If room availabe choose, smallest one from the group
+                roomMeetExce.push({ed,roomAvail.top()});
+                usedRoom[roomAvail.top()]++;
+                roomAvail.pop();
+            }
+            else{ // If not room available 
+                auto exRoom = roomMeetExce.top();roomMeetExce.pop();
+                ll roomId = exRoom.second;
+                ll endTime = exRoom.first;
+                ll currExTime = ed-st;
+
+                roomMeetExce.push({endTime+currExTime,roomId});
+                usedRoom[roomId]++;
+            }   
+            
+        }
+
+        ll ans =0;
+        ll maxiOccur = 0;
+
+        for(auto it:usedRoom){
+            if(it.second>maxiOccur){
+                maxiOccur = it.second;
+                ans = it.first;
+            }
+            else if(it.second==maxiOccur){
+                ans = min(ans,it.first);
+            }
+        }
+
+        return ans;
     }
 };
