@@ -1,55 +1,51 @@
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <unordered_set>
-#include <queue>
-
 class Solution {
 public:
     vector<int> findAllPeople(int n, vector<vector<int>>& meetings, int firstPerson) {
-        vector<bool> can(n);  
-        can[0] = can[firstPerson] = true; 
+        vector<pair<int,int>>adj[n];
 
-        map<int, vector<pair<int, int>>> mp;  
+        for(auto it:meetings){
+            int u = it[0];
+            int v = it[1];
+            int wt = it[2];
 
-        for (auto& meeting : meetings) 
-            mp[meeting[2]].emplace_back(meeting[0], meeting[1]); 
+            adj[u].push_back({v,wt});
+            adj[v].push_back({u,wt});
+        }
 
-        
-        for (auto& [k, v] : mp) {
-            unordered_map<int, vector<int>> graph;
-            unordered_set<int> st;  
+        vector<int>vis(n,0);
 
-           
-            for (auto& [x, y] : v) {
-                graph[x].push_back(y); 
-                graph[y].push_back(x); 
-                if (can[x]) st.insert(x); 
-                if (can[y]) st.insert(y); 
+        vector<int> ans;
+
+        // pair<time,PerId>
+        priority_queue<pair<int,int>,vector< pair<int,int>>,greater< pair<int,int>>>minHeap;
+        minHeap.push({0,0});
+        minHeap.push({0,firstPerson});
+        // vis[0]=1;
+        // vis[firstPerson]=1;
+
+        while(!minHeap.empty()){
+            auto it = minHeap.top();minHeap.pop();
+            int node = it.second;
+            int time = it.first;
+
+            if(vis[node]==1){
+                continue;
             }
+            vis[node]=1;
+            ans.push_back(node);
 
-            queue<int> q; 
+            
 
-           
-            for (auto& x : st) q.push(x); 
-         
+            for(auto it:adj[node]){
+                int adjNode = it.first;
+                int adjTime = it.second;
 
-            while (q.size()) {
-                auto x = q.front(); q.pop(); 
-                for (auto& y : graph[x]) 
-                    if (!can[y]) {
-                        can[y] = true; 
-                        q.push(y); 
-                    }
+                if(time<=adjTime && !vis[adjNode]){
+                    // vis[adjNode]=1;
+                    minHeap.push({adjTime,adjNode});
+                }
             }
         }
-        
-        vector<int> ans; 
-
-    
-        for (int i = 0; i < n; ++i) 
-            if (can[i]) ans.push_back(i); 
-
-        return ans;  
+        return ans;
     }
 };
