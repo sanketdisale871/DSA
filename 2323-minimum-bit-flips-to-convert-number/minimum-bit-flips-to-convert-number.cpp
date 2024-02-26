@@ -1,19 +1,22 @@
 class Solution {
 public:
-    int minBitFlips(int s, int g) {
+    int minBitFlips(int start, int goal) {
         int cnt = 0;
-        for(int bit = 0;bit<32;bit++){
-            if((g&(1<<bit))!=0){ // Set Goal Bit
-                if((s&(1<<bit))==0){ 
-                    cnt++;
-                }
+
+        for(int bit=30;bit>=0;bit--){
+
+            int stSet = (start & (1<<bit));
+            int gSet = (goal & (1<<bit));
+
+            if((stSet>0 && gSet>0) || (stSet==0 && gSet==0)){
+                continue;
             }
             else{
-                if((s&(1<<bit))!=0){ // Not set Goal Bit 
-                    cnt++;
-                }
+                cnt++;
             }
         }
+
+
         return cnt;
     }
 };
