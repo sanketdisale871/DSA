@@ -7,9 +7,7 @@ public:
 
             if(occur[s[i]-'a']!=0){
                 cnt++;
-                for(int i=0;i<26;i++){
-                    occur[i]=0;
-                }
+                occur.assign(26,0);
             }
             occur[s[i]-'a']=1; 
         }
