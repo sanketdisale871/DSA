@@ -3,13 +3,7 @@ public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
         vector<vector<int>>ans;
 
-        sort(intervals.begin(),intervals.end(),[&](vector<int>a,vector<int>b){
-            
-            return a[0]<b[0];
-            
-               
-            
-        });
+        sort(intervals.begin(),intervals.end());
 
         vector<int>temp = intervals[0];
         int n = intervals.size();
