@@ -20,8 +20,6 @@ public:
         priority_queue<pair<int,int>,vector< pair<int,int>>,greater< pair<int,int>>>minHeap;
         minHeap.push({0,0});
         minHeap.push({0,firstPerson});
-        // vis[0]=1;
-        // vis[firstPerson]=1;
 
         while(!minHeap.empty()){
             auto it = minHeap.top();minHeap.pop();
@@ -41,7 +39,6 @@ public:
                 int adjTime = it.second;
 
                 if(time<=adjTime && !vis[adjNode]){
-                    // vis[adjNode]=1;
                     minHeap.push({adjTime,adjNode});
                 }
             }
