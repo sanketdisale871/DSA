@@ -1,41 +1,35 @@
 class Solution {
 public:
-    int minFallingPathSum(vector<vector<int>>& mat) {
-        int m = mat.size();
-        int n = mat.size();
-        vector<vector<int>>dp(m+1,vector<int>(n+3,0));
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
 
-        for(int i=1;i<=n;i++){
-            dp[1][i]=mat[0][i-1];
+
+        vector<vector<int>>dp(m+3,vector<int>(n+3,INT_MAX));
+
+        for(int j=1;j<=n;j++){
+            dp[1][j]=matrix[0][j-1];
         }
+        int ans = INT_MAX;
 
         for(int i=2;i<=m;i++){
             for(int j=1;j<=n;j++){
 
-                int opt1 = INT_MAX;
-                int opt2 = INT_MAX;
-                int opt3 = INT_MAX;
+                dp[i][j]=matrix[i-1][j-1]+min({dp[i-1][j],dp[i-1][j-1],dp[i-1][j+1]});
+            }           
+        }
 
-                if(j>1){
-                    opt1 = dp[i-1][j-1];
-                }
-
-                    opt2 = dp[i-1][j];
-                if(j<=n-1){
-                    opt3 = dp[i-1][j+1];
-                }
-
-                dp[i][j]=mat[i-1][j-1]+min({opt1,opt2,opt3});
-            }
+        for(int i=1;i<=n;i++){
+            ans = min(ans,dp[m][i]);
         }
 
 
-        int ans = INT_MAX;
-
-        for(int j=1;j<=n;j++){
-            ans = min(ans,dp[m][j]);
-        }
-
-        return ans;
+        // for(int i=1;i<=m;i++){
+        //     for(int j=1;j<=n;j++){
+        //         cout<<dp[i][j]<<" ";
+        //     }
+        //     cout<<endl;
+        // }
+        return ans;       
     }
 };
