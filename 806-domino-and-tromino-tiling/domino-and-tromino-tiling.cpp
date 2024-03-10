@@ -1,31 +1,34 @@
 class Solution {
 public:
     typedef long long int ll;
-    const int mod = 1e9+7;
     int numTilings(int n) {
-        vector<ll>dp(n+2,0);
-        vector<ll>upDp(n+2,0);
-        vector<ll>dwDp(n+2,0);
+        vector<ll>dp(1001,0);
+        vector<ll>dpUp(1001,0);
+        vector<ll>dpDn(1001,0);
+
+        const int mod = 1e9+7;
 
         dp[1]=1;
-        dwDp[1]=0;
-        upDp[1]=0;
-
         dp[2]=2;
-        dwDp[2]=1;
-        upDp[2]=1;
+
+        dpUp[1]=0;
+        dpDn[1]=0;
+
+        dpUp[2]=1;
+        dpDn[2]=1;
 
 
-        for(ll i=3;i<=n;i++){
-            dp[i]=dp[i-1]+dp[i-2]+upDp[i-1]+dwDp[i-1];
+        for(int i=3;i<=n;i++){
+            dp[i]=dp[i-1]+dp[i-2]+dpUp[i-1]+dpDn[i-1];
+
             dp[i]%=mod;
 
-            upDp[i]=dp[i-2]+dwDp[i-1];
-            upDp[i]%=mod;
-            dwDp[i]=dp[i-2]+upDp[i-1];
-            dwDp[i]%=mod;
+            dpUp[i]=dp[i-2]+dpDn[i-1];
+            dpUp[i]%=mod;
+            dpDn[i]=dp[i-2]+dpUp[i-1];
+            dpDn[i]%=mod;
         }
 
-        return dp[n]; // The no.of all ways to place domino, tromino 
+        return dp[n];
     }
 };
