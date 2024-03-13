@@ -6,9 +6,10 @@ public:
 
         int sqrtt = sqrt(totSum);
 
-        if(sqrtt*1ll*sqrtt==totSum){
+        if(sqrtt*1ll*sqrtt==totSum)
             return sqrtt;
-        }
+        
+
         return -1;
     }
 };
