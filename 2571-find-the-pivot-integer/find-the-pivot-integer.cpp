@@ -14,8 +14,9 @@ public:
             // cout<<"LeftSum : "<<leftSum<<endl;
             // cout<<"rightSum : "<<rightSum<<endl;
 
-
-
+            if(leftSum>rightSum){
+                return -1;
+            }
         }
         return -1;
     }
