@@ -5,22 +5,18 @@ public:
             return a[1]<b[1];
         });
 
-        vector<int>temp = points[0];
-        int cnt =1;
+        int cnt = 1;
+        vector<int> temp = points[0];
 
-        int n = points.size();
-
-        for(int i=1;i<n;i++){
-            if(points[i][0]<=temp[1]){
+        for(int i=1;i<points.size();i++){
+            if(points[i][0] <= temp[1]){
                 continue;
             }
             else{
-                cnt++;
                 temp = points[i];
+                cnt++;
             }
         }
-
-
         return cnt;
     }
 };
