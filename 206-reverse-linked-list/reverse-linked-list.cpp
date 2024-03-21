@@ -9,22 +9,21 @@
  * };
  */
 class Solution {
-
 public:
     ListNode* reverseList(ListNode* head) {
-        // Edge case ;
-        if(head==NULL || head->next == NULL){
+        
+        if(head==NULL || head->next==NULL){
             return head;
         }
 
         ListNode* newHead = reverseList(head->next);
 
-        ListNode* front = head->next;
-
-        front->next = head;
+        ListNode* nexNode = head->next;
 
         head->next = NULL;
 
-        return newHead;
+        nexNode->next = head;
+
+        return newHead; 
     }
 };
