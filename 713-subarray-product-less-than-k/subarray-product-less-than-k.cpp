@@ -11,16 +11,18 @@ class Solution {
         while(j<n){
             prod*=nums[j];
 
-            if(prod<k){
+            if(prod<=k){
+                ans+=(j-i+1);
                 j++;
             }
             else{
 
-                while(prod>=k && i<=j){
-                    ans+=(n-j);
+                while(prod>k && i<=j){
+                    // ans+=(n-j);
                     prod/=nums[i];
                     i++;
-                }                
+                }   
+                ans+=(j-i+1);             
                 j++;
             }
         }
@@ -37,6 +39,6 @@ public:
 
         ll tot = n*(n+1)/2;
 
-        return tot-findSubProdGreK(nums,k);
+        return findSubProdGreK(nums,k-1);
     }
 };
