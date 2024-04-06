@@ -1,55 +1,50 @@
 class Solution {
 public:
     string longestPalindrome(string s) {
-        /*
-        Steps to Solve Problem : 
-        1) Cal for Palind substring of len 1
-        2) Cal for Palind substring of len 1
-        3) Check for other lengths        
-        */
         int n = s.length();
-        int dp[n][n];
 
+        vector<vector<int>>dp(n,vector<int>(n,0));
+
+        int stInd = 0;
         int maxiLen = 1;
-        int stPoint = 0;
 
-// One Length wala kam
         for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                if(i==j){
-                    dp[i][j]=1;
-                }
-                else{
-                    dp[i][j]=0;
-                }
-            }
+            dp[i][i]=1;
         }
-// Two Length wala kam
+
+        // Len 2 
         for(int i=1;i<n;i++){
             if(s[i-1]==s[i]){
-                maxiLen = 2;
-                stPoint = i-1;
                 dp[i-1][i]=1;
-            }
-        }
 
-        // Three and above length wala 
-        for(int k=3;k<=n;k++){
-            for(int i=0;i<n-k+1;i++){
-                int j = i+k-1;
-
-                if(dp[i+1][j-1]==1 && s[i]==s[j]){
-                    dp[i][j]=1;
-                    if(k>maxiLen){
-                        maxiLen = k;
-                        stPoint = i;
-                    }
+                if(2>maxiLen){
+                    maxiLen = 2;
+                    stInd = i-1;
                 }
             }
         }
 
+        int len = 3;
 
-        return s.substr(stPoint,maxiLen);
+        while(len<=n){
+            int i = 0;
+            
+            while(i<=(n-len)){
+                int j = i+len-1;
 
+                if(s[i]==s[j] && dp[i+1][j-1]==1){
+                    dp[i][j]=1;
+
+                    if(len>maxiLen){
+                        maxiLen = len;
+                        stInd = i;
+                    }
+                }
+                i++;
+            }
+            len++;
+        }
+
+        return s.substr(stInd,maxiLen);
     }
 };
