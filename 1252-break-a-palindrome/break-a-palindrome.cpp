@@ -1,53 +1,26 @@
 class Solution {
-    private:
-    typedef long long int ll;
-    bool isPalindrome(string t){
-        ll l = 0;
-        ll h = t.length()-1;
-        
-        while(l<h){
-            if(t[l]!=t[h]){
-                return false;
-            }
-            l++;
-            h--;
-        }
-        return true;
-}
-
 public:
-    string breakPalindrome(string str) {
-        string newStr = str;
+    string breakPalindrome(string s) {
+        int n = s.length();
 
-        if(str.length()==1){
+        if(n<=1){
             return "";
         }
-    
-        for(ll i=0;i<str.length();i++){
-            for(char ch='a';ch<str[i];ch++){
-                newStr[i]=ch;
-                if(!isPalindrome(newStr)){
-                    return newStr;
-                }
+        int ind = -1;
+
+        for(int i=0;i<n/2;i++){
+            if(s[i]!= 'a'){
+                ind = i;
+                break;
             }
-            newStr[i]=str[i];
         }
 
-        for(ll i=str.length()-1;i>=0;i--){
-            char ch = str[i];
-            ch++;
-           
-            newStr[i]=ch;
-            if(!isPalindrome(newStr)){
-                return newStr;
-            }
-            
-            newStr[i]=str[i];
+        if(ind!=-1){
+            s[ind]='a';
         }
-
-
-
-
-        return "";
+        else{
+            s[n-1]='b';
+        }
+        return s;
     }
 };
