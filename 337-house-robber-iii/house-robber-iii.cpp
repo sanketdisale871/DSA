@@ -11,28 +11,27 @@
  */
 class Solution {
     private:
-    // pair.first => withRobber,,, pair.Second => withoutRobbery
-    pair<int,int>findMaxiRobery(TreeNode* root){
-
-        // base case 
-        if(root == NULL){
+    typedef long long int ll;
+    // pair<takenThisOne,withouTakenThisOne>
+    pair<ll,ll>findMaxiPro(TreeNode* root){
+        // base case
+        if(root==NULL){
             return {0,0};
         }
 
-        auto leftRob = findMaxiRobery(root->left);
-        auto rigRob = findMaxiRobery(root->right);
+        auto lef =findMaxiPro(root->left);
+        auto rig =findMaxiPro(root->right);
 
-        pair<int,int>currRob;
+        pair<ll,ll>res;
+        res.first = root->val + lef.second + rig.second;
+        res.second = max(lef.first,lef.second)+max(rig.first,rig.second);
 
-        currRob.first = root->val + leftRob.second+rigRob.second;
-        currRob.second = max(leftRob.first,leftRob.second)+max(rigRob.first,rigRob.second);
-
-        return currRob;
+        return res;
     }
 public:
     int rob(TreeNode* root) {
-        auto res = findMaxiRobery(root);
+        auto r = findMaxiPro(root);
 
-        return max(res.first,res.second);
+        return (int) max(r.first,r.second);
     }
 };
