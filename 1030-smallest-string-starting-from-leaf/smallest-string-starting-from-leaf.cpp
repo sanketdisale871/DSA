@@ -19,14 +19,14 @@ class Solution {
         }
         str.push_back(root->val+'a');
         if(root->left == NULL && root->right==NULL){
-            string temp = str;
-            reverse(temp.begin(),temp.end());
+            // string temp = str;
+            reverse(str.begin(),str.end());
 
             if(ans=="-1"){
-                ans = temp;
+                ans = str;
             }
             else{
-                ans = min(ans,temp);
+                ans = min(ans,str);
             }
             return ;
         }
