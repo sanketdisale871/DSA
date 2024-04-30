@@ -2,26 +2,27 @@ class Solution {
 public:
     typedef long long int ll;
     long long wonderfulSubstrings(string word) {
-        ll ans = 0;
+        ll n = word.length();
 
-        unordered_map<int,int>um;
+        unordered_map<ll,ll>um; // um [mask] = occurance 
 
         ll mask = 0;
 
+        ll ans = 0;
+
         um[0]=1;
 
-        for(ll i=0;i<word.length();i++){
-            int currBit = word[i]-'a';
+        for(ll i=0;i<n;i++){
+            ll ind = word[i]-'a';
 
-            mask^=(1<<currBit);
+            mask = mask ^ (1<<ind);
 
-            if(um.count(mask)){
-                ans+=um[mask];
+            if(um.count(mask)){ // Even wale case ke liye, sb characters even hai.
+                ans += um[mask];
             }
 
-            // case  2 : Odd wale charas ke liye 
-
-            for(int j=0;j<=9;j++){
+            // Odd ke liye, mai (1-10) tk Mask lagake dekhata 
+            for(ll j=0;j<=9;j++){
                 ll temp = mask ^ (1<<j);
 
                 if(um.count(temp)){
@@ -31,8 +32,6 @@ public:
 
             um[mask]++;
         }
-
-
         return ans;
     }
 };
