@@ -4,14 +4,14 @@ public:
         int sum = 0;
 
         // pair<ans,ind>
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>minHeap;
+        queue<pair<int,int>>minHeap;
 
         minHeap.push({0,nums[0]});
 
         int possSub = (1<<nums.size());
 
         while(!minHeap.empty() && possSub--){
-            auto it = minHeap.top();minHeap.pop();
+            auto it = minHeap.front();minHeap.pop();
 
             int r = it.second;
             int ind = it.first;
