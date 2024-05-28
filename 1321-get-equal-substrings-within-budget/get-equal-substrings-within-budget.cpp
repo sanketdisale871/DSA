@@ -1,16 +1,19 @@
 class Solution {
 public:
     int equalSubstring(string s, string t, int maxCost) {
-        int cst = 0;
+        int i=0,j=0;
         int maxiLen = 0;
 
-        int j=0,i=0,n = s.length();
+        int n = s.length();
+
+        int cst = 0;
 
         while(j<n){
             cst+=abs(s[j]-t[j]);
 
             if(cst<=maxCost){
-                maxiLen = max(maxiLen,j-i+1);
+                int len = j-i+1;
+                maxiLen = max(maxiLen,len);
                 j++;
             }
             else{
@@ -18,6 +21,7 @@ public:
                     cst-=abs(s[i]-t[i]);
                     i++;
                 }
+                // maxiLen = max(maxiLen,j-i+1);
                 j++;
             }
         }
