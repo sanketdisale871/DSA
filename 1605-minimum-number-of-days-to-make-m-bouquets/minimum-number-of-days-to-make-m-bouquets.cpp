@@ -1,34 +1,44 @@
 class Solution {
-    bool isPossible(int days,vector<int>& bloomDay, int m, int k){
-        int mdBqt = 0;
-        int adj=k;
+    private:
+    typedef long long int ll;
 
-        for(int i=0;i<bloomDay.size();i++){
-            if(bloomDay[i]<=days){
-                adj--;
+    bool isPossible(ll days,ll m,ll k,vector<int>&blDay){
+        ll n = blDay.size();
+        ll msBkts = 0;
 
-                if(adj==0){
-                    mdBqt++;
+        ll cnt = 0;
 
-                    adj = k;
-                }
+        for(ll i=0;i<n;i++){
+            if(blDay[i]<=days){
+                cnt++;
             }
             else{
-                adj = k;
+                cnt=0;
+            }
+
+            // cout<<"i : "<<i<<" cnt : "<<cnt<<" msBkts : "<<msBkts<<endl;
+
+            if(cnt>=k){
+                msBkts++;
+                cnt = 0;
             }
         }
-        return mdBqt>=m;
+
+        return msBkts>=m;
     }
 public:
     int minDays(vector<int>& bloomDay, int m, int k) {
-        int low = 1;
-        int high = *max_element(bloomDay.begin(),bloomDay.end());
-        int ans = -1;
+        ll low = 0;
+        ll high = *max_element(bloomDay.begin(),bloomDay.end());
+
+        ll ans = -1;
 
         while(low<=high){
-            int mid = low + (high-low)/2;
+            ll mid = low + (high-low)/2;
 
-            if(isPossible(mid,bloomDay,m,k)){
+            // cout<<"mid : "<<mid<<endl;
+
+            if(isPossible(mid,m,k,bloomDay)){
                 ans = mid;
                 high = mid-1;
             }
