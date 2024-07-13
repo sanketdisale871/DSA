@@ -1,65 +1,83 @@
 class Solution {
 public:
-
-    struct Robot {
+    struct Robot{
         int position;
         int health;
         char direction;
         int index;
     };
 
-    vector<int> survivedRobotsHealths(vector<int>& positions, vector<int>& healths, string& directions) {
-        int n = positions.size();
-        vector<Robot> vals;
-        for (int i = 0; i < n; i++) {
-            vals.push_back({positions[i], healths[i], directions[i], i});
+    vector<int> survivedRobotsHealths(vector<int>& posi, vector<int>& heal, string dire) {
+        int n = posi.size();
+
+        vector<Robot>vals;
+
+        for(int i=0;i<n;i++){
+            vals.push_back({posi[i],heal[i],dire[i],i});
         }
-        sort(vals.begin(), vals.end(), [](const Robot& a, const Robot& b) {
-            return a.position < b.position;
+
+        sort(vals.begin(),vals.end(),[&](Robot r1,Robot r2){
+            return r1.position<r2.position;
         });
 
-        vector<Robot> stack;
-        for (auto& robot : vals) {
-            if (robot.direction == 'R') {
-                stack.push_back(robot);
-                continue;
+        stack<Robot>st;
+        vector<Robot>rghtGuys;
+        for(int i=n-1;i>=0;i--){
+            auto it = vals[i];
+
+            if(it.direction == 'L'){
+                st.push(it);
             }
+            else{
+                auto r = it.health;
 
-            // Check if the robot should be eliminated
-            bool gone = false;
+                while(!st.empty() && r>0){
 
-            // Process the stack to eliminate robots with lower health
-            while (!stack.empty() && stack.back().health <= robot.health && stack.back().direction == 'R') {
-                if (stack.back().health == robot.health) {
-                    stack.pop_back();
-                    gone = true;
-                    break;
+                if(r==st.top().health){
+                    st.pop();
+                    r = 0;
                 }
-                robot.health--;
-                stack.pop_back();
-            }
+                else if(r<st.top().health){
+                    st.top().health--;
+                    r = 0;
+                }
+                else{
+                    r--;
+                    st.pop();
+                }
+             }
 
-            // If the robot is not yet eliminated and there is a robot facing right with higher health
-            if (!gone && !stack.empty() && stack.back().direction == 'R' && stack.back().health > robot.health) {
-                stack.back().health--;
-                gone = true;
-            }
-
-            // If the robot is not eliminated, add it to the stack
-            if (!gone) {
-                stack.push_back(robot);
+             if(r>0){
+                it.health = r;
+                rghtGuys.push_back(it);
+             }
             }
         }
 
-        sort(stack.begin(), stack.end(), [](const Robot& a, const Robot& b) {
-            return a.index < b.index;
+        vector<Robot>rt;
+
+        while(!st.empty()){
+            // cout<<st.top().health<<" ";
+            rt.push_back(st.top());
+            st.pop();
+        }
+
+        for(auto it:rghtGuys){
+            rt.push_back(it);
+            // cout<<it.health<<" ";
+        }
+
+        sort(rt.begin(),rt.end(),[&](Robot r1,Robot r2){
+            return r1.index<r2.index;
         });
 
-        vector<int> result;
-        for (const auto& robot : stack) {
-            result.push_back(robot.health);
+        vector<int>ans;
+
+        for(auto it:rt){
+            ans.push_back(it.health);
         }
 
-        return result;
+
+        return ans;
     }
 };
