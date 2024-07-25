@@ -3,12 +3,15 @@ class Solution {
     vector<vector<int>>ans;
     void solve(int ind,vector<int>&ar,int tar,vector<int>&tmp){
 
-        if(tar==0){
-            ans.push_back(tmp);
-            return ;
-        }
+        
+
         // base case 
         if(ind>=ar.size()){
+            
+            if(tar==0){
+            ans.push_back(tmp);
+            return ;
+            }
             return;
         }
 
