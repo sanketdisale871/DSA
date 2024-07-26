@@ -1,10 +1,10 @@
 class Solution {
 public:
-    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
-        vector<vector<int>>matrix(n,vector<int>(n,1e9));
+    int findTheCity(int n, vector<vector<int>>& edges, int thDist) {
+        vector<vector<int>>mat(n,vector<int>(n,1e9));
 
         for(int i=0;i<n;i++){
-            matrix[i][i]=0;
+            mat[i][i]=0;
         }
 
         for(auto it:edges){
@@ -12,41 +12,37 @@ public:
             int v = it[1];
             int wt = it[2];
 
-            matrix[u][v]=wt;
-            matrix[v][u]=wt;
+            mat[u][v]=wt;
+            mat[v][u]=wt;
         }
-
-        // Now i wil find the distance from every city to reach every other city 
 
         for(int vai = 0;vai<n;vai++){
             for(int i=0;i<n;i++){
                 for(int j=0;j<n;j++){
-                    matrix[i][j]=min(matrix[i][j],matrix[i][vai]+matrix[vai][j]);
+                    mat[i][j]=min(mat[i][j],mat[i][vai]+mat[vai][j]);
                 }
             }
         }
 
-        int ans = 0;
-        int prevCnt = INT_MAX;
+        int rechCity = INT_MAX;
+        int ans = -1;
 
-        // Now, I will find the cities 
-        for(int city = 0;city<n;city++){
-            int cnt = 0;
-            for(int reach = 0;reach<n;reach++){
-                if(city==reach){
+        for(int city=0;city<n;city++){
+            int reCh=0;
+            for(int j=0;j<n;j++){
+                if(city==j){
                     continue;
                 }
-
-                if(matrix[city][reach]<=distanceThreshold){
-                    cnt++;
+                if(mat[city][j]<=thDist){
+                    reCh++;
                 }
             }
-
-            if(cnt<=prevCnt){
-                prevCnt=cnt;
+            if(reCh<=rechCity){
                 ans = city;
-            }
+                rechCity = reCh;
+            }  
         }
+        
         return ans;
     }
 };
