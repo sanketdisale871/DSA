@@ -1,18 +1,23 @@
 class Solution {
 public:
-    typedef long long int ll;
-    ll dp[102];
     int rob(vector<int>& nums) {
-        
-        memset(dp,0,sizeof(dp));
-
         int n = nums.size();
 
-        dp[1]=nums[0];
+        vector<int>dp0(n,0);
+        vector<int>dp1(n,0);
 
-        for(int i=2;i<=n;i++){
-            dp[i]=max(nums[i-1]+dp[i-2],dp[i-1]);
+        dp0[0]=0;
+        dp1[0]=nums[0];
+
+        if(n>1){
+            dp0[1]=max(dp0[0],dp1[0]);
+            dp1[1]=nums[1]+dp0[0];
         }
-        return dp[n];
+
+        for(int i=2;i<n;i++){
+            dp0[i]=max(dp0[i-1],dp1[i-1]);
+            dp1[i]=nums[i]+max(dp0[i-1],dp1[i-2]);
+        }
+        return max(dp0[n-1],dp1[n-1]);
     }
 };
