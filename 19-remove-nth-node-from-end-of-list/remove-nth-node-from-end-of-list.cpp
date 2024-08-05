@@ -11,32 +11,36 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        if(head->next==NULL){
-            return NULL;
+        // Other option can be : 
+        // if(n==1){
+        //     return NULL;
+        // }
+        // I will create achhese options 
+        ListNode* prev = head;
+        ListNode* nex = head;
+        // ListNode* slow = head;
+
+        while(n--){
+            nex = nex->next;
         }
 
-        ListNode* slowPtr = head;
-        ListNode* fastPtr = head;
-
-        for(int i=1;i<=n;i++){
-            fastPtr = fastPtr->next;
-        }
-
-        if(fastPtr==NULL){ // If whole length traverse, i have to delete Head of LinkedList
+        if(nex==NULL){
             return head->next;
         }
 
-        while(fastPtr!=NULL && fastPtr->next!=NULL){
-            slowPtr = slowPtr->next;
-            fastPtr = fastPtr->next;
+        while(nex!=NULL && nex->next!=NULL){
+            prev = prev->next;
+            nex = nex->next;
         }
 
-        ListNode* delNode = slowPtr->next;
-        slowPtr->next = slowPtr->next->next;
+        ListNode* delNode = prev->next;
+        prev->next = prev->next->next;
 
-        delNode->next = NULL;
         delete delNode;
 
         return head;
+        
+
+
     }
 };
