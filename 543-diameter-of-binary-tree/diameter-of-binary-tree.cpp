@@ -11,30 +11,25 @@
  */
 class Solution {
     private:
-    int dia = 0;
-    int findH(TreeNode* root){
-        if(root==NULL){
-                    return 0;
-                }
+    int dia=0 ;
 
-        if(root->left==NULL && root->right==NULL){
-            return 1;
+    int findHt(TreeNode* root){
+        // Base case 
+        if(root==NULL){
+            return 0;
         }
 
-        int lef = findH(root->left);
-        int rig = findH(root->right);
+        int lef = findHt(root->left);
+        int rig = findHt(root->right);
 
         dia = max(dia,lef+rig);
 
-
         return 1+max(lef,rig);
-
     }
 public:
     int diameterOfBinaryTree(TreeNode* root) {
-        findH(root);
-
+        
+        findHt(root);
         return dia;
-
     }
 };
