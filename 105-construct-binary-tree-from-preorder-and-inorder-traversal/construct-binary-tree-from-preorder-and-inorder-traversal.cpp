@@ -12,31 +12,31 @@
 class Solution {
     private:
     unordered_map<int,int>um;
-    TreeNode* buildTreeIt(int inStart,int inEnd,int preStart,int preEnd,vector<int>&preorder,
-    vector<int>&inorder){
-        // Base case
+
+    TreeNode* builtTree(int inStart,int inEnd,vector<int>&inOrd,int preStart,int preEnd,vector<int>&preOrd){
         if(inStart>inEnd || preStart>preEnd){
             return NULL;
         }
 
-        TreeNode* root = new TreeNode(preorder[preStart]);
-        int inRoot = um[preorder[preStart]];
-        int lefNums = inRoot-inStart;
+        TreeNode* root = new TreeNode(preOrd[preStart]);
+        int inRoot = um[preOrd[preStart]];
+        int lefElem = inRoot-inStart;
 
-        root->left = buildTreeIt(inStart,inRoot-1,preStart+1,preStart+lefNums,preorder,inorder);
-        root->right = buildTreeIt(inRoot+1,inEnd,preStart+lefNums+1,preEnd,preorder,inorder);
+        root->left = builtTree(inStart,inRoot-1,inOrd,preStart+1,preStart+lefElem,preOrd);
+        root->right = builtTree(inRoot+1,inEnd,inOrd,preStart+lefElem+1,preEnd,preOrd);
 
         return root;
+
     }
-
-
 public:
-    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-
-        for(int i=0;i<inorder.size();i++){
-            um[inorder[i]]=i;
+    TreeNode* buildTree(vector<int>& preOrd, vector<int>& inOrd) {
+        for(int i=0;i<inOrd.size();i++){
+            um[inOrd[i]]=i;
         }
-                
-        return buildTreeIt(0,inorder.size()-1,0,preorder.size()-1,preorder,inorder);
+
+        int inStart = 0,inEnd = inOrd.size()-1;
+        int preStart =0,preEnd = preOrd.size()-1;
+
+        return builtTree(inStart,inEnd,inOrd,preStart,preEnd,preOrd);
     }
 };
