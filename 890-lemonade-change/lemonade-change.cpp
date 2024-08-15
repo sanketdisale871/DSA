@@ -1,30 +1,32 @@
 class Solution {
 public:
     bool lemonadeChange(vector<int>& bills) {
-        int n= bills.size();
-        
-        int fCnt = 0;
-        int tCnt = 0;
-        int twCnt = 0;
+        int f = 0;
+        int t = 0;
+        int tw = 0;
 
-        for(int i=0;i<n;i++){
-            if(bills[i]==5){
-                fCnt++;
+        for(auto it:bills){
+            if(it==5){
+                f++;
             }
-            else if(bills[i]==10){
-                if(fCnt==0){
+            else if(it==10){
+                if(f>0){
+                    t++;
+                    f--;
+                }
+                else{
                     return false;
                 }
-                fCnt--;
-                tCnt++;
             }
             else{
-                if(tCnt>0 && fCnt>0){
-                    tCnt--;
-                    fCnt--;
+                if(f>0 && t>0){
+                    f--;
+                    t--;
+                    tw++;
                 }
-                else if(fCnt>=3){
-                    fCnt-=3;
+                else if(f>2){
+                    f-=3;
+                    tw++;
                 }
                 else{
                     return false;
