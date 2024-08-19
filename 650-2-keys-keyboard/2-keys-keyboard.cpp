@@ -1,27 +1,26 @@
 class Solution {
-public:
-    int minSteps(int n) {
-        if(n==1){
+    private:
+    int count(int currA,int copiedA,int n,vector<vector<int>>&dp){
+        if(currA>n){
+            return 1e6;
+        }
+        else if(currA==n){
             return 0;
         }
 
-        if(n==2){
-            return 2;
+        if(dp[currA][copiedA]!=-1){
+            return dp[currA][copiedA];
         }
 
-        int ans = 0;
+        int copy = 2 + count(currA+currA,currA,n,dp);
+        int past = 1 + count(currA+copiedA,copiedA,n,dp);
 
-        for(int i=2;i*i<=n;i++){
-            while(n%i==0){
-                ans+=i;
-                n/=i;
-            }
-        }
-       
-       if(n>1){
-        ans+=n;
-       }
+        return dp[currA][copiedA]=min(copy,past);
+    }
+public:
+    int minSteps(int n) {
+        vector<vector<int>>dp(n+2,vector<int>(n+2,-1));
 
-       return ans;
+        return n>1?1+count(1,1,n,dp):0;
     }
 };
