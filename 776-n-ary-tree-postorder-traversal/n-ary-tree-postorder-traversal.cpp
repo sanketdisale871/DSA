@@ -19,30 +19,23 @@ public:
 */
 
 class Solution {
+    private:
+    void postTraver(Node* root,vector<int>&ans){
+        if(root == NULL){
+            return ;
+        }
+
+        for(auto it:root->children){
+            postTraver(it,ans);
+        }
+
+        ans.push_back(root->val);
+    }
 public:
     vector<int> postorder(Node* root) {
         vector<int>ans;
 
-        if(root == NULL){
-            return ans;
-        }
-
-        stack<Node*>st;
-        st.push(root);
-
-        // root - right - left
-
-        while(!st.empty()){
-            auto it = st.top();st.pop();
-
-            for(int i=0;i<it->children.size();i++){
-                st.push(it->children[i]);
-            }
-
-            ans.push_back(it->val);
-        }
-
-        reverse(ans.begin(),ans.end());
+        postTraver(root,ans);
 
         return ans;
     }
