@@ -22,46 +22,31 @@
 class Solution {
     private:
     bool ans = false;
-    void preOrdTraversal(ListNode *head,ListNode *temp,TreeNode* root){
+    bool preOrdTraversal(ListNode *head,ListNode *temp,TreeNode* root){
+        if(temp==NULL){
+            return true;
+        }
+
         if(root==NULL){
-            return ;
+            return false;
         }
 
         if(root->val == temp->val){
             temp = temp->next;
         }
+        else if(head->val == root->val){
+            head = head->next;
+        }
         else{
             temp = head;
-
-            if(temp->val == root->val){
-                temp = temp->next;
-            }
         }
 
-            if(temp==NULL){
-                ans = true;
-                return;
-        }
-       
-        preOrdTraversal(head,temp,root->left);
-        preOrdTraversal(head,temp,root->right);
+        return preOrdTraversal(head,temp,root->left) || preOrdTraversal(head,temp,root->right);
     }
-
-    void traverse(ListNode* head,ListNode* temp,TreeNode* root){
-        if(root == NULL){
-            return;
-        }
-
-        preOrdTraversal(head,temp,root);
-
-        traverse(head,temp,root->left);
-        traverse(head,temp,root->right);
-    }
-
 public:
     bool isSubPath(ListNode* head, TreeNode* root) {
         ListNode* temp = head;
-        traverse(head,temp,root);
-        return ans;
+        return preOrdTraversal(head,temp,root);
+      
     }
 };
