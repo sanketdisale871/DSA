@@ -1,33 +1,31 @@
 class Solution {
-    private:
-    typedef long long int ll;
 public:
     int longestCommonPrefix(vector<int>& arr1, vector<int>& arr2) {
-        ll ans = 0;
-    
-        unordered_map<ll,ll>um; // => prefix of arr1
-        
+        unordered_map<int,int>cmPrf;
+
         for(auto it:arr1){
-            ll num = it;
+            int num = it;
+
             while(num){
-                um[num]=1;
-                num/=10;                
-            }            
-        }       
-        
-        for(auto it:arr2){ //Checking the prefix of arr2 exists in arr1 or NOT.
-            ll num = it;
-            while(num){    
-                if(um[num]==1){ 
-                   string res = to_string(num);
-                    if(res.length()>ans){
-                        ans = res.length();
-                    }
-                    break; // length to decrese honi wali hai
+                cmPrf[num]=1;
+                num/=10;
+            }
+        }
+
+        int ans = 0;
+
+        for(auto it:arr2){
+            int num = it;
+            while(num){
+                if(cmPrf.find(num)!=cmPrf.end()){
+                    string str = to_string(num);
+                    int len = str.length();
+                    ans = max(ans,len);
+                    break;
                 }
-                num/=10;                
-            }    
-        }    
+                num/=10;
+            }
+        }
 
         return ans;
     }
