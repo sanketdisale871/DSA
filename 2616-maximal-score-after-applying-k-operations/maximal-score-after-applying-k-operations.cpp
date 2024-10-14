@@ -3,20 +3,24 @@ public:
     typedef long long int ll;
     long long maxKelements(vector<int>& nums, int k) {
         priority_queue<ll>maxHeap;
-        ll ans =0;
 
         for(auto it:nums){
             maxHeap.push(it);
         }
 
-        while(k--){
-            auto it = maxHeap.top();maxHeap.pop();
-            ans+=it;
+        ll sc = 0;
 
-            ll res = ceil(it*1.0/3);
-            maxHeap.push(res);
+        while(!maxHeap.empty() && k--){
+            auto it = maxHeap.top();
+
+            sc+=it;
+
+            maxHeap.pop();
+
+            ll r = ceil(it*1.0/3);
+            maxHeap.push(r);
         }
 
-        return ans;
+        return sc;
     }
 };
