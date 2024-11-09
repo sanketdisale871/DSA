@@ -29,7 +29,7 @@ public:
             if(b[i]=='1'){
                 ans = ans + res;
             }
-            bit++;
+           bit++;
            res = 2*res;
         }
         return ans;
