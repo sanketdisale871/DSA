@@ -21,10 +21,11 @@ public:
             }
             dq.push_back(i);
 
-            if(i>=k && cpy[dq.front()]==cpy[i-k]){
+            if(i>=k && dq.front()==i-k){
                 dq.pop_front();
             }
         }
+        
         return maxi;
 
     }
