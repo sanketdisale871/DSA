@@ -2,10 +2,8 @@ class Solution {
 public:
     string addSpaces(string s, vector<int>& sp) {
         string ans="";
-
         int n = s.length();
 
-        sort(sp.begin(),sp.end());
         
         int n2=sp.size();
         int j=0;
@@ -16,7 +14,6 @@ public:
         }
 
         for(int i=0;i<n;i++){
-
             if(j<n2){
                 if(i==sp[j]-1){
                     ans.push_back(s[i]);
@@ -31,7 +28,6 @@ public:
                 ans.push_back(s[i]);
             }
         }
-
         return ans;
     }
 };
