@@ -11,61 +11,55 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* temp = new ListNode(0);
-        ListNode* curr = temp;
+        int carry = 0;
+
+        ListNode* ans = new ListNode(-1);
+
+        ListNode* ress = ans;
+
+        while(l1!=NULL && l2!=NULL){
+            int res = l1->val+l2->val + carry;
+            carry = res/10;
+            int dig = res%10;
+            cout<<"dig : "<<dig<<endl;
+            ListNode* newNode = new ListNode(dig);
+            ans->next = newNode;
+            ans = ans->next;
+            l1=l1->next;
+            l2 = l2->next;
+        }
+
+        while(l1!=NULL){
+            int res = l1->val+ carry;
+            carry = res/10;
+            int dig = res%10;
+            ListNode* newNode = new ListNode(dig);
+             cout<<"dig : "<<dig<<endl;
+            ans->next = newNode;
+            ans = ans->next;
+            l1=l1->next;
+        }
+
+        while(l2!=NULL){
+            int res = l2->val+ carry;
+            carry = res/10;
+            int dig = res%10;
+            ListNode* newNode = new ListNode(dig);
+             cout<<"dig : "<<dig<<endl;
+            ans->next = newNode;
+            ans = ans->next;
+            l2=l2->next;
+        }
+
+        if(carry){
+             ListNode* newNode = new ListNode(carry);
+          
+            ans->next = newNode;
+            ans = ans->next;
+        }
+
         
-        int car = 0;
 
-        while(l1 && l2){
-            int val = l1->val + l2->val + car;
-
-            car = val/10;
-            val = val%10;
-
-            ListNode* newNode = new ListNode(val);
-            curr->next = newNode;
-            curr = curr->next;
-
-            l1 = l1->next;
-            l2 = l2->next;
-        }
-
-        while(l1){
-            int val = l1->val + car;
-
-            car = val/10;
-            val = val%10;
-
-            ListNode* newNode = new ListNode(val);
-            curr->next = newNode;
-            curr = curr->next;
-            l1 = l1->next;
-        }
-
-        while(l2){
-            int val = l2->val + car;
-
-            car = val/10;
-            val = val%10;
-
-            ListNode* newNode = new ListNode(val);
-            curr->next = newNode;
-            curr = curr->next;
-            l2 = l2->next;
-        }
-
-        while(car){
-            int val = car;
-
-            car = val/10;
-            val = val%10;
-
-            ListNode* newNode = new ListNode(val);
-            curr->next = newNode;
-            curr = curr->next;
-            // l2 = l2->next;
-        }
-
-        return temp->next;
+        return ress->next;
     }
 };
