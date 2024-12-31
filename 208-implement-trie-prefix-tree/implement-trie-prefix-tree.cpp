@@ -1,28 +1,34 @@
 class Node{
     public:
-    Node* children[26];
-    bool endOfWord = false;
+    Node* links[26];
+    bool isEndWrd;
 
-    bool isContainsKey(char ch){
-        return (children[ch-'a']!=NULL);
+    Node(){
+        isEndWrd = false;
+        for (int i = 0; i < 26; i++) {
+            links[i] = nullptr; 
+        }
     }
 
-    void putKey(char ch,Node *node){
-        children[ch-'a']=node;
+    bool containsChar(char ch){
+        return (links[ch-'a']!=NULL);
+    }
+
+    void putKey(char ch,Node* newNode){
+        links[ch-'a']=newNode;
     }
 
     Node* getKey(char ch){
-        return children[ch-'a'];
+        return links[ch-'a'];
     }
 
     void setEnd(){
-        endOfWord=true;
+        isEndWrd = true;
     }
 
-    bool isEnd(){
-        return endOfWord;
+    bool isWordEnd(){
+        return isEndWrd;
     }
-
 };
 
 class Trie {
@@ -34,38 +40,46 @@ public:
     }
     
     void insert(string word) {
-        Node* node = root;
+        Node* travNode = root;
 
         for(int i=0;i<word.length();i++){
+            char ch = word[i];
 
-            if(!node->isContainsKey(word[i])){
-                node->putKey(word[i],new Node());
+            if(!travNode->containsChar(ch)){
+                travNode->putKey(ch,new Node());
             }
-            node = node->getKey(word[i]);
+            travNode=travNode->getKey(ch);
         }
-        node->setEnd();
+        travNode->setEnd();
     }
     
     bool search(string word) {
-        Node* node = root;
+        Node* travNode = root;
 
         for(int i=0;i<word.length();i++){
-            if(!node->isContainsKey(word[i])){
+            char ch = word[i];
+
+            if(travNode->containsChar(ch)==false){
                 return false;
             }
-            node = node->getKey(word[i]);
+            travNode = travNode->getKey(ch);
         }
-        return node->endOfWord;
+        if(travNode->isWordEnd()){
+            return true;
+        }
+        return false;
     }
     
     bool startsWith(string prefix) {
-        Node* node = root;
+        Node* travNode = root;
 
-        for(int i=0;i<prefix.size();i++){
-            if(!node->isContainsKey(prefix[i])){
+        for(int i=0;i<prefix.length();i++){
+            char ch = prefix[i];
+
+            if(travNode->containsChar(ch)==false){
                 return false;
             }
-            node = node->getKey(prefix[i]);
+            travNode = travNode->getKey(ch);
         }
         return true;
     }
