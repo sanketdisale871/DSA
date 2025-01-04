@@ -14,22 +14,22 @@ public:
     TreeNode* prev = NULL;
     TreeNode* increasingBST(TreeNode* root) {
         if(root==NULL){
-            return root;
+            return NULL;
         }
-        
+
         increasingBST(root->right);
 
         root->right = prev;
 
-        if(prev && prev->left){
+        if(prev){
             prev->left = NULL;
         }
-
         prev = root;
 
         increasingBST(root->left);
 
 
         return prev;
+
     }
 };
