@@ -12,46 +12,41 @@
 
 class NodeValues{
     public:
-    int miniValue;
-    int maxValue;
+    int maxVal;
+    int minVal;
     int maxSum;
 
-    NodeValues(int miniValue,int maxValue,int maxSum){
-        this->miniValue = miniValue;
-        this->maxValue = maxValue;
-        this->maxSum = maxSum;
-    }
+    NodeValues(int miniVal,int maxiVal,int maxiSum){
+        minVal = miniVal;
+        maxVal = maxiVal;
+        maxSum = maxiSum;
+    }  
 };
 
-
 class Solution {
-public:
-      int sum =0;
-    NodeValues findSumBST(TreeNode* root){
-        // base case
+    private:
+    int sum = -1;
+    NodeValues* findMaxSum(TreeNode* root){
         if(root == NULL){
-            return NodeValues(INT_MAX,INT_MIN,0);
+            return new NodeValues(INT_MAX,INT_MIN,0);
         }
 
-        auto left = findSumBST(root->left);
-        auto right = findSumBST(root->right);
+        auto lef = findMaxSum(root->left);
+        auto righ = findMaxSum(root->right);
 
-        int rootVal = root->val;
-        if(left.maxValue < rootVal && rootVal < right.miniValue ){
-            // IT's BST
-            sum = max(sum,rootVal+left.maxSum+right.maxSum);
-
-            return NodeValues(min(rootVal,left.miniValue),max(rootVal,right.maxValue),rootVal+left.maxSum+right.maxSum);
+        if(lef->maxVal < root->val && root->val < righ->minVal){
+            sum = max(sum,lef->maxSum + righ->maxSum + root->val);
+            return new NodeValues(min(root->val,lef->minVal),max(root->val,righ->maxVal),lef->maxSum + righ->maxSum + root->val);
         }
         else{
-            return NodeValues(INT_MIN,INT_MAX,max(left.maxSum,right.maxSum));
+            return new NodeValues(INT_MIN,INT_MAX,max({0,lef->maxSum,righ->maxSum}));
         }
     }
-
-  
+public:
     int maxSumBST(TreeNode* root) {
-        findSumBST(root);
+        auto it = findMaxSum(root);
 
-        return sum>-1 ?sum : 0;
+
+        return sum<0?0:sum;
     }
 };
