@@ -5,22 +5,32 @@ public:
         int n = boxes.size();
         vector<int>ans(n);
 
+        vector<pair<int,int>>pref(n);
+        int prefSum = 0;
+        int oneCnt = 0;
+
+        for(int i=0;i<n;i++){
+            if(boxes[i]=='1'){
+                prefSum+=i;
+                oneCnt++;
+            }
+            pref[i]={prefSum,oneCnt};
+        }   
+        
         for(int i=0;i<n;i++){
             int lef = i-1;
-            int cnt = 0;
-            while(lef>=0){
-                if(boxes[lef]=='1'){
-                    cnt+=(i-lef);
-                }
-                lef--;
-            }
             int rig = i+1;
 
-            while(rig<n){
-                if(boxes[rig]=='1'){
-                    cnt+=(rig-i);
-                }
-                rig++;
+            int cnt = 0;
+
+            if(lef>=0){
+                int res = (i*pref[lef].second) - pref[lef].first;
+                cnt+=res;
+            }
+
+            if(rig<n){
+                int res = (pref[n-1].first-pref[i].first) - ((pref[n-1].second-pref[i].second)*i);
+                cnt+=res;
             }
             ans[i]=cnt;
         }
