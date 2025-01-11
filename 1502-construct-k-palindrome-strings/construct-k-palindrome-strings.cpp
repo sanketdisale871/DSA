@@ -1,23 +1,20 @@
 class Solution {
 public:
     bool canConstruct(string s, int k) {
-        int n = s.length();
-
-        if(k>n){
+        // Need to add the K palindrome String
+        if(s.length()<k){
             return false;
         }
-
-       
         unordered_map<char,int>um;
 
-        for(auto it:s){
-            um[it]++;
+        for(auto ch:s){
+            um[ch]++;
         }
 
         int oddCnt = 0;
 
         for(auto it:um){
-            if(it.second & 1){
+            if(it.second%2 !=0){
                 oddCnt++;
             }
         }
