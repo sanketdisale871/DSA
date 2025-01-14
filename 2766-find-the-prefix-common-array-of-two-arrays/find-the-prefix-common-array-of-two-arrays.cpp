@@ -5,15 +5,19 @@ public:
 
         unordered_map<int,int>um;
         int n = a.size();
+        int cnt = 0;
 
         for(int i=0;i<n;i++){
             um[a[i]]++;
-            int cnt = 0;
 
-            for(int j=i;j>=0;j--){
-                if(um[b[j]]!=0){
-                    cnt++;
-                }
+            if(um[a[i]]==2){
+                cnt++;
+            }
+
+            um[b[i]]++;
+
+            if(um[b[i]]==2){
+                cnt++;
             }
             ans.push_back(cnt);
         }
