@@ -2,14 +2,11 @@ class Solution {
 public:
     vector<vector<int>> highestPeak(vector<vector<int>>& isWater) {
         int m = isWater.size();
-
         int n = isWater[0].size();
 
         vector<vector<int>> dist(m,vector<int>(n,INT_MAX));
 
         queue<pair<int,int>>q;
-
-       
 
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
