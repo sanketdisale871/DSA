@@ -1,113 +1,118 @@
 class DisjointSet{
     public:
-    vector<int>size,parent;
-    
+    vector<int>parent;
+    vector<int>size;
+
     DisjointSet(int n){
         parent.resize(n+1);
         size.resize(n+1,1);
-        
-        for(int i=0;i<n+1;i++){
+
+        for(int i=0;i<n;i++){
             parent[i]=i;
         }
     }
-    
+
     int findUltPar(int node){
-        if(node == parent[node]){
+        if(node==parent[node]){
             return node;
         }
-        
+
         return parent[node]=findUltPar(parent[node]);
     }
-    
+
     void unionBySize(int u,int v){
-        int ultp_u = findUltPar(u);
-        int ultp_v = findUltPar(v);
-        
-        if(ultp_u==ultp_v){
-           return;
+        int ult_u = findUltPar(u);
+        int ult_v = findUltPar(v);
+
+        if(ult_u==ult_v){
+            return ;
         }
-        
-        if(size[ultp_u]<size[ultp_v]){
-            parent[ultp_u]=ultp_v;
-            size[ultp_v]+=size[ultp_u];
+
+        if(size[ult_u]<size[ult_v]){
+            size[ult_v]+=size[ult_u];
+            parent[ult_u]=ult_v;
         }
         else{
-            parent[ultp_v]=ultp_u;
-            size[ultp_u]+=size[ultp_v];
+            size[ult_u]+=size[ult_v];
+            parent[ult_v]=ult_u;
         }
     }
 };
 
 class Solution {
+
 public:
     int largestIsland(vector<vector<int>>& grid) {
-        int n = grid.size();
+            int m = grid.size();
+            int n = grid[0].size();
 
-        DisjointSet ds(n*n);
+            vector<vector<int>>vis(m,vector<int>(n,0));
 
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
+            DisjointSet ds(m*n+1);
 
-                if(grid[i][j]==1){
+            for(int i=0;i<m;i++){
+                for(int j=0;j<n;j++){
+                    if(grid[i][j]==1 && !vis[i][j]){
+                        queue<pair<int,int>>q;
+                        q.push({i,j});
 
-                    int u = i*n+j;
+                        vis[i][j]=1;
 
-                    int drow[]={-1,1,0,0};
-                    int dcol[]={0,0,-1,1};
 
-                    for(int itr=0;itr<4;itr++){
-                        int newX = drow[itr]+i;
-                        int newY = dcol[itr]+j;
+                        while(!q.empty()){
+                            auto it = q.front();q.pop();
+                            int x = it.first;
+                            int y = it.second;
 
-                        if((newX>=0 && newX<n) && (newY>=0 && newY<n) && (grid[newX][newY]==1)){
-                            int v = newX*n+newY;
-                            ds.unionBySize(u,v);
-                           
+                            int drow[]={-1,1,0,0};
+                            int dcol[]={0,0,1,-1};
+
+                            for(int i=0;i<4;i++){
+                                int newX = drow[i]+x;
+                                int newY = dcol[i]+y;
+
+                                if(newX>=0 && newX<m && newY>=0 && newY<n && !vis[newX][newY] && grid[newX][newY]){
+                                    int u = x*n+y;
+                                    int v = newX*n+newY;
+
+                                    ds.unionBySize(u,v);
+
+                                    q.push({newX,newY});
+                                    vis[newX][newY]=1;
+                                }
+                            }
                         }
                     }
                 }
-            }
-        }
+            }  
 
+            int maxArea = ds.size[0];
+            for(int i=0;i<m;i++){
+                for(int j=0;j<n;j++){
+                    if(grid[i][j]==0){
+                        unordered_set<int>st;
 
-        int area = 0;
+                        int drow[]={-1,1,0,0};
+                        int dcol[]={0,0,1,-1};
 
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]==0){
-                    unordered_set<int>st;
+                        for(int itr=0;itr<4;itr++){
+                            int newX = drow[itr]+i;
+                            int newY = dcol[itr]+j;
 
-                    int drow[]={-1,1,0,0};
-                    int dcol[]={0,0,-1,1};
-
-                    for(int itr=0;itr<4;itr++){
-                        int newX = drow[itr]+i;
-                        int newY = dcol[itr]+j;
-
-                        if((newX>=0 && newX<n) && (newY>=0 && newY<n) && (grid[newX][newY]==1)){
-                            int v = newX*n+newY;
-
-                           st.insert(ds.findUltPar(v));
+                            if(newX>=0 && newX<m && newY>=0 && newY<n && grid[newX][newY]){
+                                st.insert(ds.findUltPar(newX*m+newY));
+                            }
                         }
+
+                        int ar=0;
+
+                        for(auto it:st){
+                            ar+=ds.size[it];
+                        }
+                        maxArea = max(maxArea,ar+1);
                     }
-
-                    int ar = 0;
-
-                    for(auto it:st){
-                        ar+=(ds.size[it]);
-                    }
-
-                    area = max(area,ar+1);
                 }
             }
-        }
-
-
-        // If matrix not conatin the any 0 wala cell 
-        for(int i=0;i<n*n;i++){
-            area = max(area,ds.size[ds.findUltPar(i)]);
-        }
-
-        return area;
+            return maxArea;   
     }
 };
