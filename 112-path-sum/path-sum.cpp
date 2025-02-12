@@ -12,31 +12,27 @@
 class Solution {
 public:
     bool hasPathSum(TreeNode* root, int targetSum) {
-        // base case 
-        if(root==NULL){
+        if(root ==NULL){
             return false;
         }
 
-        if(root->left == NULL && root->right==NULL){
-
-            if(targetSum-root->val==0){
+        if(root->left == NULL && root->right == NULL){
+            if(root->val == targetSum){
                 return true;
             }
-            else{
-                return false;
-            }
         }
 
-        bool leftWay =hasPathSum(root->left,targetSum-root->val); 
-        if(leftWay){
+        auto lef = hasPathSum(root->left,targetSum-root->val);
+
+        if(lef){
             return true;
         }
-        bool rightWay =hasPathSum(root->right,targetSum-root->val); 
+        auto righ = hasPathSum(root->right,targetSum-root->val);
 
-        if(rightWay){
+        if(righ){
             return true;
         }
 
-        return leftWay||rightWay;
+        return false;
     }
 };
