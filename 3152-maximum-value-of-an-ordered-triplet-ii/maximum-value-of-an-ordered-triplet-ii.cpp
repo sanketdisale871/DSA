@@ -2,6 +2,7 @@ class Solution {
 
 public:
 typedef long long int ll;
+
     long long maximumTripletValue(vector<int>& nums) {
         
         int n = nums.size();
@@ -15,7 +16,6 @@ typedef long long int ll;
 
         for(ll i=1;i<n;i++){
             prefix[i]=maxi;
-
             maxi = max(maxi,nums[i]);
         }
 
@@ -28,10 +28,8 @@ typedef long long int ll;
 
         for(ll i=1;i<n-1;i++){
             ll res = (prefix[i]-nums[i])*suffix[i];
-
             ans = max(ans,res);
         }
-
         return ans;
     }
 };
