@@ -1,1 +1,1 @@
-<h2>lowest-common-ancestor-of-deepest-leaves Notes</h2><hr>[ Time taken: 17 m 17 s ]
+<h2>lowest-common-ancestor-of-deepest-leaves Notes</h2><hr>[ Time taken: 6 m 35 s ]
