@@ -12,33 +12,33 @@
 class Solution {
     private:
     int findHeight(TreeNode* root){
-        // base case
         if(root == NULL){
             return 0;
         }
 
-        int lHeight = findHeight(root->left);
-        int rHeight = findHeight(root->right);
+        int lefHt = findHeight(root->left);
+        int righHt = findHeight(root->right);
 
-        return 1+max(lHeight,rHeight);
+        return 1+max(lefHt,righHt);
     }
 public:
     TreeNode* lcaDeepestLeaves(TreeNode* root) {
-        if(root == NULL){
+        if(root==NULL){
             return NULL;
         }
 
-        int lHeight = findHeight(root->left);
-        int rHeight = findHeight(root->right);
+        int lHt = findHeight(root->left);
+        int rHt = findHeight(root->right);
 
-        if(lHeight == rHeight){
+        if(lHt==rHt){
             return root;
         }
-        else if(lHeight<rHeight){
+        else if(lHt<rHt){
             return lcaDeepestLeaves(root->right);
         }
         else{
             return lcaDeepestLeaves(root->left);
         }
+
     }
 };
