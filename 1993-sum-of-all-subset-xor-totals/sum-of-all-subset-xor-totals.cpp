@@ -1,26 +1,31 @@
 class Solution {
     private:
-    long long int totXorSum = 0;
- 
-    void calculateSubsetsXOR(int currXor,vector<int>&nums,int ind){
+  
+    vector<vector<int>>dp;
+    int calculateSubsetsXOR(int currXor,vector<int>&nums,int ind){
         // Base case
         if(ind>=nums.size()){
-            totXorSum+=currXor;
-            return ;
+            return currXor;
         }
 
-    
+        if(dp[ind][currXor]!=-1){
+            return dp[ind][currXor];
+        }
 
-        calculateSubsetsXOR(currXor^nums[ind],nums,ind+1);
-        calculateSubsetsXOR(currXor,nums,ind+1);
+        int takingCurrElem = calculateSubsetsXOR(currXor^nums[ind],nums,ind+1);
+        int nonTakingCurrElem = calculateSubsetsXOR(currXor,nums,ind+1);
+
+        return dp[ind][currXor]=takingCurrElem+nonTakingCurrElem;
+        
     }
 public:
     int subsetXORSum(vector<int>& nums) {
+        int n = nums.size();
+
+        dp.resize(n+2,vector<int>(1e5,-1));
         
         int currXor = 0;
 
-        calculateSubsetsXOR(currXor,nums,0);
-
-        return totXorSum;
+        return calculateSubsetsXOR(currXor,nums,0);
     }
 };
