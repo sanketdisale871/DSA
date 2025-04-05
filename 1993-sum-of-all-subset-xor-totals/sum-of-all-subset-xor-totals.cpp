@@ -1,32 +1,26 @@
 class Solution {
-public:
-    int subsetXORSum(vector<int>& nums) {
-        int sum = 0;
-
-        // pair<ans,ind>
-        queue<pair<int,int>>minHeap;
-
-        minHeap.push({0,nums[0]});
-
-        int possSub = (1<<nums.size());
-
-        while(!minHeap.empty() && possSub--){
-            auto it = minHeap.front();minHeap.pop();
-
-            int r = it.second;
-            int ind = it.first;
-
-            sum+=r;
-
-            if(ind<nums.size()-1){
-                minHeap.push({ind+1,r^nums[ind+1]});
-            }
-
-            if(ind<nums.size()-1){
-                minHeap.push({ind+1,r^nums[ind]^nums[ind+1]});
-            }
+    private:
+    long long int totXorSum = 0;
+ 
+    void calculateSubsetsXOR(int currXor,vector<int>&nums,int ind){
+        // Base case
+        if(ind>=nums.size()){
+            totXorSum+=currXor;
+            return ;
         }
 
-        return sum;
+    
+
+        calculateSubsetsXOR(currXor^nums[ind],nums,ind+1);
+        calculateSubsetsXOR(currXor,nums,ind+1);
+    }
+public:
+    int subsetXORSum(vector<int>& nums) {
+        
+        int currXor = 0;
+
+        calculateSubsetsXOR(currXor,nums,0);
+
+        return totXorSum;
     }
 };
