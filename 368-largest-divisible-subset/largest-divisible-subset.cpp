@@ -1,27 +1,43 @@
 class Solution {
 public:
-    vector<int> ans;
-    vector<int> dp;
-    void lds(vector<int> temp,int i,int prev,vector<int>& nums){
-        if(i>=nums.size()){
-            if(temp.size()>ans.size()) ans=temp;
-            return;
-        }
-        //We can't directly use temp.size() without typecasting because it will return an unsigned int and hence if() will not work.
-        if((int)temp.size()>dp[i] && (nums[i]%prev==0)){ 
-            dp[i]=temp.size();
-            temp.push_back(nums[i]);
-            lds(temp,i+1,nums[i],nums);
-            temp.pop_back();
-        }
-        lds(temp,i+1,prev,nums);
-    }
-    
     vector<int> largestDivisibleSubset(vector<int>& nums) {
         sort(nums.begin(),nums.end());
-        for(int i=0;i<=nums.size();i++) dp.push_back(-1);
-        vector<int> temp;
-        lds(temp,0,1,nums);
+
+        int n = nums.size();
+        vector<int>dp(n+1,1);
+        vector<int>par(n+1,0);
+
+        for(int i=0;i<n;i++){
+            par[i]=i;
+        }
+
+        int maxiLen = 1;
+        int stInd = 0;
+
+        for(int i=1;i<n;i++){
+            int j = i-1;
+            while(j>=0){
+                if(nums[i]%nums[j]==0 && dp[i]< 1+dp[j]){
+                    dp[i]=max(dp[i],1+dp[j]);
+                    par[i]=j;
+                    if(maxiLen<dp[i]){
+                        maxiLen = dp[i];
+                        stInd = i;
+                    }
+                }
+                j--;
+            }           
+        }
+        vector<int>ans;
+
+        while(stInd!=par[stInd]){
+            ans.push_back(nums[stInd]);
+            stInd = par[stInd];
+        }
+
+        ans.push_back(nums[stInd]);
+
+
         return ans;
     }
 };
