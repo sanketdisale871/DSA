@@ -1,41 +1,25 @@
 class Solution {
 public:
     int minimumOperations(vector<int>& nums) {
-        int n = nums.size();
-
+        unordered_set<int>occrNums;
         unordered_map<int,int>um;
 
-        for(auto it:nums){
-            um[it]++;
+        int keepTrack = -1;
+
+        for(int itr=0;itr<nums.size();itr++){
+            if(um.find(nums[itr])!=um.end()){
+                keepTrack = max(keepTrack,um[nums[itr]]);
+            }
+           um[nums[itr]]=itr;
         }
 
-        if(um.size()==n){
-            return 0;
-        }
-        int oper = 0;
+        keepTrack++;
 
-        for(int i=0;i<n;i+=3){
-            int j = i;
-            int cnt=3;
-            while(cnt-- && j<n){
-                um[nums[j]]--;
+        cout<<keepTrack<<endl;
 
-                if(um[nums[j]]==0){
-                    um.erase(nums[j]);
-                }
-                j++;
-            }
+        int rqOper = (int)ceil(keepTrack*1.0/3);
 
-            if(cnt<3){
-                oper++;
-            }
+        return rqOper;
 
-            int len = n-j;
-
-            if(len==um.size()){
-                return oper;
-            }
-        }
-        return oper;
     }
 };
