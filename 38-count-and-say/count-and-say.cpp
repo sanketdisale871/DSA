@@ -1,39 +1,38 @@
 class Solution {
-    private:
-    typedef long long int ll;
 public:
     string countAndSay(int n) {
+        string str = "";
+
         if(n==1){
             return "1";
         }
         else if(n==2){
             return "11";
         }
+        else if(n==3){
+            return "21";
+        }
         else{
+            string temp = "21";
 
-            string s = "11";
+            for(int itr=4;itr<=n;itr++){
+                str = "";
+                int cnt = 1;
+                temp+="$";
 
-            for(ll i=3;i<=n;i++){
-                string t = "";
-                s=s+'$';
-
-                ll cnt = 1;
-
-                for(ll j=1;j<s.length();j++){
-
-                    if(s[j]==s[j-1]){
+                for(int j=1;j<temp.length();j++){
+                    if(temp[j]==temp[j-1]){
                         cnt++;
                     }
                     else{
-                        t = t + to_string(cnt);
-                        t = t+s[j-1];
+                        str+=to_string(cnt);
+                        str+=temp[j-1];
                         cnt=1;
                     }
                 }
-                s = t;
+                temp = str;
             }
-            return s;
-
+            return str;
         }
     }
 };
