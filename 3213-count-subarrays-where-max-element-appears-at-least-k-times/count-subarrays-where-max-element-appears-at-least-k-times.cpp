@@ -2,15 +2,17 @@ class Solution {
     private:
     typedef long long int ll;
 
-    ll findSubar(vector<int>&nums,int k,ll num){
-        ll ans = 0;
+public:
+    long long countSubarrays(vector<int>& nums, int k) {
+        ll maxiElem = *max_element(nums.begin(),nums.end());
         ll n = nums.size();
+        int occur = 0;
+        ll ans = 0;
+
         ll i=0,j=0;
 
-        ll occur = 0;
-
         while(j<n){
-            if(nums[j]==num){
+            if(nums[j]==maxiElem){
                 occur++;
             }
 
@@ -18,10 +20,9 @@ class Solution {
                 j++;
             }
             else{
-                while(occur>=k && i<=j){
+                while(i<=j && occur>=k){
                     ans+=(n-j);
-
-                    if(nums[i]==num){
+                    if(nums[i]==maxiElem){
                         occur--;
                     }
                     i++;
@@ -30,11 +31,5 @@ class Solution {
             }
         }
         return ans;
-    }
-public:
-    long long countSubarrays(vector<int>& nums, int k) {
-        ll maxiElem = *max_element(nums.begin(),nums.end());
-
-        return findSubar(nums,k,maxiElem);
     }
 };
