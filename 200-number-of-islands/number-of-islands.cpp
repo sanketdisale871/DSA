@@ -1,40 +1,47 @@
 class Solution {
     private:
-    void dfs(int r,int c,vector<vector<char>>&grid,vector<vector<int>>&vis){
-        vis[r][c]=1;
+    bool checkIsItValid(int currRow,int currCol,int rows,int cols){
+        return currRow>=0&&currRow<rows&&currCol>=0&&currCol<cols;
+    }
+    void visAdjacentCells(int currRow,int currCol,vector<vector<char>>& grid,vector<vector<int>>&notVisCells){
+        notVisCells[currRow][currCol]=1;
 
         int drow[]={-1,1,0,0};
         int dcol[]={0,0,1,-1};
 
-        for(int i=0;i<4;i++){
-            int newX = drow[i]+r;
-            int newY = dcol[i]+c;
+        for(int itr=0;itr<4;itr++){
+            int dCurrRow = currRow+drow[itr];
+            int dCurrCol = currCol + dcol[itr];
 
-
-            if((newX>=0 && newX<grid.size()) && (newY>=0 && newY<grid[0].size()) && grid[newX][newY]=='1'
-            && !vis[newX][newY]){
-                dfs(newX,newY,grid,vis);
+            if(checkIsItValid(dCurrRow,dCurrCol,grid.size(),grid[0].size()) && grid[dCurrRow][dCurrCol]=='1' && !notVisCells[dCurrRow][dCurrCol]){
+                visAdjacentCells(dCurrRow,dCurrCol,grid,notVisCells);
             }
         }
     }
 public:
+/*
+Approach: 
+1) Vis 
+2) No.of Islands = No.of Calls to visite sourrounding cells;
+*/
     int numIslands(vector<vector<char>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
+        int rows = grid.size();
+        int cols = grid[0].size();
 
-        vector<vector<int>>vis(m,vector<int>(n,0));
+        vector<vector<int>>notVisCells(rows,vector<int>(cols,0));
 
-        int cnt = 0;
+        int noOfIslands=0;
 
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]=='1' && !vis[i][j]){
-                    dfs(i,j,grid,vis);
-                    cnt++;
+        for(int rowItr=0;rowItr<rows;rowItr++){
+            for(int colItr=0;colItr<cols;colItr++){
+                // Current cell is Land, and not visited
+                if(grid[rowItr][colItr]=='1' && !notVisCells[rowItr][colItr]){
+                    noOfIslands++;
+                    visAdjacentCells(rowItr,colItr,grid,notVisCells); // Traverse the adjacent lands which can contribute in land.
                 }
             }
         }
 
-        return cnt;
+        return noOfIslands;
     }
 };
