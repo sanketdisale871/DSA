@@ -1,6 +1,7 @@
 # Write your MySQL query statement below
-select name as 'Customers'
-from Customers 
-where id not in(
-    select customerId from Orders
+select C.name as Customers
+from Customers as C
+where C.id not in (
+    select O.customerId 
+    from Orders as O
 )
