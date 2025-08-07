@@ -1,50 +1,61 @@
 class Solution {
     private:
-    vector<int>kahnsAlgo(vector<int>adj[],int n){
-        vector<int>indeg(n,0);
+    vector<int>calOrderOfCourses(int numCourses,vector<vector<int>>&adj){
+        vector<int>coursesOrder;
 
-        for(int i=0;i<n;i++){
+        vector<int>indeg(numCourses,0);
+
+        for(int i=0;i<numCourses;i++){
             for(auto it:adj[i]){
                 indeg[it]++;
             }
         }
 
-        queue<int>q;
-        for(int i=0;i<n;i++){
-            if(indeg[i]==0){
-                q.push(i);
+        queue<int>crsOrd;
+
+        for(int crsItr=0;crsItr<numCourses;crsItr++){
+            if(indeg[crsItr]==0){
+                crsOrd.push(crsItr);
             }
         }
 
-        vector<int>ans;
+        while(!crsOrd.empty()){
+            auto crs = crsOrd.front();crsOrd.pop();
+            coursesOrder.push_back(crs);
 
-        while(!q.empty()){
-            auto it = q.front();q.pop();
-            ans.push_back(it);
-            for(auto itt:adj[it]){
-                indeg[itt]--;
-
-                if(indeg[itt]==0){
-                    q.push(itt);
+            for(auto it:adj[crs]){
+                indeg[it]--;
+                if(indeg[it]==0){
+                    crsOrd.push(it);
                 }
             }
         }
-        return ans;
+        if(coursesOrder.size()==numCourses){
+            return coursesOrder;
+        }
+        else{
+            return {};
+        }
     }
 public:
-    vector<int> findOrder(int n, vector<vector<int>>& prerequisites) {
-        vector<int>adj[n];
+// ai -> bi
+    vector<int> findOrder(int numCourses, vector<vector<int>>& preq) {
+        // 0->1
+        // [[1,0],[2,0],[3,1],[3,2]]
 
-        for(auto it:prerequisites){
+        // 1-> 0 , 2->0 , 3->1 , 3-> 2
+        // indegree 
+        // 0 1 2 3
+        // 2 0 0 0
+
+        vector<int>indeg(numCourses,0);
+        vector<vector<int>>adj(numCourses,vector<int>());
+
+        for(auto it:preq){
             adj[it[1]].push_back(it[0]);
         }
 
-        vector<int>res = kahnsAlgo(adj,n);
 
-        if(res.size()!=n){
-            return {};
-        }
-
-        return res;
+        return calOrderOfCourses(numCourses,adj);
     }
 };
