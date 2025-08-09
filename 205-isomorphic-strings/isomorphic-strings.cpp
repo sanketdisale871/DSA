@@ -1,28 +1,29 @@
 class Solution {
 public:
     bool isIsomorphic(string s, string t) {
+        /*
+        
+        */
         if(s.length()!=t.length()){
             return false;
         }
-
-        unordered_map<char,char>um;
-        unordered_set<char>used;
+        unordered_map<char,char>mappingChars;
+        set<char>usedChars;
 
         for(int i=0;i<s.length();i++){
-            if(um.count(s[i])>0){
-                if(um[s[i]]!=t[i]){
-                    return false;
-                }
+            char firstChar = s[i];
+            char secChar = t[i];
+
+            if(mappingChars.find(firstChar)==mappingChars.end() && usedChars.count(secChar)==0){
+                mappingChars[firstChar]=secChar;
+                usedChars.insert(secChar);
             }
             else{
-                if(used.count(t[i])){
+                if(mappingChars[firstChar]!=secChar){
                     return false;
                 }
-                um[s[i]]=t[i];
-                used.insert(t[i]);
             }
         }
-
-        return true;
+        return true;        
     }
 };
