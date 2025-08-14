@@ -2,40 +2,33 @@ class Solution {
 public:
     typedef long long int ll;
     int minimumBeautifulSubstrings(string s) {
-        vector<ll>dp(17,1e8);
-
-        // dp[i] => Tell the Minimum number of substring from [1,....,i]
-
+        /*
+        P.S: Minimum number of substrings in such partition        
+        */
         int n = s.length();
-        dp[0]=0;
+        vector<ll>dp(n+1,1e18);
 
         if(s[0]=='1'){
             dp[1]=1;
         }
-        else{
-            dp[1]=1e8;
+        dp[0]=0;
+        
+        
 
-        }
+        for(ll i=2;i<=n;i++){
+            ll r = 1e18;
+            ll j = i;
+            while(j>=1){
+                string temp = s.substr(j-1,i-j+1);
+                unsigned long num = stoi(temp,0,2);
 
-        for(int i=1;i<n;i++){
-            int j = i;
-
-            while(j>=0){
-                string temp = s.substr(j,i-j+1);
-
-                unsigned long dece = stoi(temp,0,2);
-
-                if(temp[0]!='0' && 15625%dece==0){
-                    dp[i+1]=min(dp[i+1],1+dp[j]);
+                if(temp[0]!='0' && 15625%num==0){
+                    r = min(r,1+dp[j-1]);
                 }
                 j--;
             }
+            dp[i]=r;
         }
-
-        if(dp[n]==1e8){
-            return -1;
-        }
-
-        return dp[n];
+        return dp[n]==1e18?-1:dp[n];
     }
 };
