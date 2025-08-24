@@ -12,7 +12,6 @@ public:
             st.pop();
         }
         st.push({price,x});
-
         return x;
     }
 };
