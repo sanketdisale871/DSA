@@ -1,27 +1,42 @@
 class Solution {
 public:
-    typedef long long int ll;
-    int areaOfMaxDiagonal(vector<vector<int>>& dimensions) {
-        ll diag = INT_MIN;
-        ll area = 0;
+    int areaOfMaxDiagonal(vector<vector<int>>& diam) {
+        /*
+        dimensions: 
         
-        for(auto it:dimensions){
-            ll l = it[0];
-            ll b = it[1];
-            
-            ll diaLen =l*l + b*b;
+        [[10,3],[5,9],[8,3]]
 
-            // cout<<"diaLen"<<diaLen<<endl;
-             ll res = l*b;
+        int l = 10
+        int b = 3
 
-            if(diaLen>diag){ // Longest diagonal 
-                diag = diaLen; 
-                area =res;
+        diaLen = 10+3 => 13
+
+        int l = 5
+        int b = 9
+        diaLen = 13
+
+
+        d2 = l2 + b2 
+        d = sqrt(l) + sqrt(b)
+        */
+        double maxiDigLen = -1;
+        int areRect = 0;
+
+        for(auto it:diam){
+            int l = it[0];
+            int b = it[1];
+
+            double diaLen = sqrt((l*l)+(b*b));
+            //                  5 + 9 => 14
+
+            if(diaLen>maxiDigLen){
+                maxiDigLen=diaLen;
+                areRect = l*b;
             }
-            else if(diaLen==diag){
-                area = max(area,res); // Same Diagonal pe Maximum wala area 
+            else if(diaLen==maxiDigLen){
+                areRect = max(areRect,l*b);
             }
         }
-        return (int)area;
+        return areRect;
     }
 };
