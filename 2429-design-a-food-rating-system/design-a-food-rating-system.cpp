@@ -23,10 +23,16 @@ public:
     }
     
     string highestRated(string cuisine) {
-        
         string res="";
         auto anss=*(hrating[cuisine].begin());
         res=anss.second;
         return res;
     }
 };
+
+/**
+ * Your FoodRatings object will be instantiated and called as such:
+ * FoodRatings* obj = new FoodRatings(foods, cuisines, ratings);
+ * obj->changeRating(food,newRating);
+ * string param_2 = obj->highestRated(cuisine);
+ */
