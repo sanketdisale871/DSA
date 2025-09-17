@@ -1,45 +1,42 @@
 class MyStack {
-    private:
-    /*
-    LIFO => Stack 
-
-    FIFO => Queue
-    */
-    queue<int>q1;
-    queue<int>q2;
-
 public:
+    queue<int>q;
     MyStack() {
-        
+        // like this all came towards us
+       
     }
     
     void push(int x) {
-        while(!q1.empty()){
-            auto it = q1.front();q1.pop();
-            q2.push(it);
-        }
-
-        q1.push(x);
-
-        while(!q2.empty()){
-            auto it = q2.front();q2.pop();
-            q1.push(it);
+        q.push(x);
+        int siz = q.size()-1;
+        while(siz--){
+            q.push(q.front());
+            q.pop();
         }
     }
     
     int pop() {
-        int topElem = q1.front();q1.pop();
-        return topElem;
+        auto it = q.front();q.pop();
+        return it;
     }
     
     int top() {
-        return q1.front();
+        return q.front();
     }
     
     bool empty() {
-        if(q1.empty()){
+        if(q.empty()){
             return true;
         }
         return false;
     }
 };
+
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * MyStack* obj = new MyStack();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->top();
+ * bool param_4 = obj->empty();
+ */
