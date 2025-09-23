@@ -10,24 +10,24 @@
  * };
  */
 class Solution {
-public:
-    int rangeSumBST(TreeNode* root, int low, int high) {
+    private:
+    int sum = 0;
+    void traversal(TreeNode* root,int low,int high){
         if(root==NULL){
-            return 0;
+            return;
         }
 
-        int sum = 0;
+        if(root->val >= low && root->val<=high){
+            sum+=root->val;
+        }
+        traversal(root->left,low,high);
+        traversal(root->right,low,high);
+    }
+public:
+    
+    int rangeSumBST(TreeNode* root, int low, int high) {
 
-        if(root->val>=low && root->val<=high){
-            sum+= root->val + rangeSumBST(root->left,low,high)+rangeSumBST(root->right,low,high);
-        }
-        else if(high<root->val){
-            sum+= rangeSumBST(root->left,low,high);
-        }
-        else if(low>root->val){
-            sum+=rangeSumBST(root->right,low,high);
-        }
-
-        return sum;
+       traversal(root,low,high);
+       return sum;
     }
 };
