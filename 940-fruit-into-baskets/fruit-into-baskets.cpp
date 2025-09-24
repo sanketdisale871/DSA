@@ -24,7 +24,6 @@ public:
                 j++;
             }
         }
-
         return maxi;
     }
 };
