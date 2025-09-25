@@ -1,15 +1,4 @@
 class Solution {
-    /*
-     2 [5]  2+3 => 5
-    3,4  2+4 => 6
-   6,5,7 
-  4,1,8,3
-
-  10, => 7
-  7  =>
-
-  5
-    */
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
         int m = triangle.size();
@@ -31,8 +20,6 @@ public:
                 dp[i][j]=min(btm,dig);
             }
         }
-        return dp[0][0];
-        
-
+        return dp[0][0];   
     }
 };
