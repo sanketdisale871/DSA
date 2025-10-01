@@ -1,17 +1,15 @@
 class Solution {
 public:
     int numWaterBottles(int numBottles, int numExchange) {
-        int ans = numBottles;
-        int emp = ans;
+       int ne = numBottles;
+       int totDrink = ne;
 
-        while(emp>=numExchange){
-            int res = emp/numExchange;
+       while(ne>=numExchange){
+            int res = ne/numExchange;
+            totDrink+=res;
+            ne = res + (ne%numExchange);
+       }
 
-            ans+=res;
-            emp = emp%numExchange + res;            
-        }
-
-
-        return ans;
+        return totDrink;
     }
 };
