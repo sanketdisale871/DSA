@@ -1,4 +1,9 @@
 class Solution {
+    /*
+    nums = [2,5,7,8,9,2,3,4,3,1], k = 3
+    ind = [ 0,1,2,3,4,5,6,7,8,9]
+    dp = [  1,2,3,4,5,1,2,3,1,1], k = 3
+    */
 public:
     bool hasIncreasingSubarrays(vector<int>& nums, int k) {
         int n = nums.size();
