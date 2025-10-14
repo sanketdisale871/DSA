@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/adjacent-increasing-subarrays-detection-i">Adjacent Increasing Subarrays Detection I</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>Given an array <code>nums</code> of <code>n</code> integers and an integer <code>k</code>, determine whether there exist <strong>two</strong> <strong>adjacent</strong> subarrays of length <code>k</code> such that both subarrays are <strong>strictly</strong> <strong>increasing</strong>. Specifically, check if there are <strong>two</strong> subarrays starting at indices <code>a</code> and <code>b</code> (<code>a &lt; b</code>), where:</p>
+<h2><a href="https://leetcode.com/problems/adjacent-increasing-subarrays-detection-i">Adjacent Increasing Subarrays Detection I</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>Given an array <code>nums</code> of <code>n</code> integers and an integer <code>k</code>, determine whether there exist <strong>two</strong> <strong>adjacent</strong> <span data-keyword="subarray-nonempty">subarrays</span> of length <code>k</code> such that both subarrays are <strong>strictly</strong> <strong>increasing</strong>. Specifically, check if there are <strong>two</strong> subarrays starting at indices <code>a</code> and <code>b</code> (<code>a &lt; b</code>), where:</p>
 
 <ul>
 	<li>Both subarrays <code>nums[a..a + k - 1]</code> and <code>nums[b..b + k - 1]</code> are <strong>strictly increasing</strong>.</li>
@@ -6,8 +6,6 @@
 </ul>
 
 <p>Return <code>true</code> if it is <em>possible</em> to find <strong>two </strong>such subarrays, and <code>false</code> otherwise.</p>
-
-<p>A <strong>subarray</strong> is a contiguous <b>non-empty</b> sequence of elements within an array.</p>
 
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
@@ -39,6 +37,6 @@
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 100</code></li>
-	<li><code>1 &lt;= 2 * k &lt;= nums.length</code></li>
+	<li><code>1 &lt; 2 * k &lt;= nums.length</code></li>
 	<li><code>-1000 &lt;= nums[i] &lt;= 1000</code></li>
 </ul>
