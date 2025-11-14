@@ -1,61 +1,40 @@
 class Solution {
-    private:
-    vector<int>calOrderOfCourses(int numCourses,vector<vector<int>>&adj){
-        vector<int>coursesOrder;
+public:
+    vector<int> findOrder(int numCr, vector<vector<int>>& preq) {
+        vector<int>crsSched;
+        vector<int>indegree(numCr,0);
+        queue<int>keepTracCrs;
+        vector<vector<int>>adj(numCr);
 
-        vector<int>indeg(numCourses,0);
+        for(auto it:preq){
+            int a = it[0];
+            int b = it[1];
+            indegree[a]++;
+            adj[b].push_back(a);
+        }
 
-        for(int i=0;i<numCourses;i++){
-            for(auto it:adj[i]){
-                indeg[it]++;
+        for(int i=0;i<numCr;i++){
+            if(indegree[i]==0){
+                keepTracCrs.push(i);
             }
         }
 
-        queue<int>crsOrd;
+        while(!keepTracCrs.empty()){
+            auto it = keepTracCrs.front();keepTracCrs.pop();
+            crsSched.push_back(it);
 
-        for(int crsItr=0;crsItr<numCourses;crsItr++){
-            if(indeg[crsItr]==0){
-                crsOrd.push(crsItr);
-            }
-        }
+            for(auto itt:adj[it]){
+                indegree[itt]--;
 
-        while(!crsOrd.empty()){
-            auto crs = crsOrd.front();crsOrd.pop();
-            coursesOrder.push_back(crs);
-
-            for(auto it:adj[crs]){
-                indeg[it]--;
-                if(indeg[it]==0){
-                    crsOrd.push(it);
+                if(indegree[itt]==0){
+                    keepTracCrs.push(itt);
                 }
             }
         }
-        if(coursesOrder.size()==numCourses){
-            return coursesOrder;
-        }
-        else{
-            return {};
-        }
-    }
-public:
-// ai -> bi
-    vector<int> findOrder(int numCourses, vector<vector<int>>& preq) {
-        // 0->1
-        // [[1,0],[2,0],[3,1],[3,2]]
-
-        // 1-> 0 , 2->0 , 3->1 , 3-> 2
-        // indegree 
-        // 0 1 2 3
-        // 2 0 0 0
-
-        vector<int>indeg(numCourses,0);
-        vector<vector<int>>adj(numCourses,vector<int>());
-
-        for(auto it:preq){
-            adj[it[1]].push_back(it[0]);
+        if(crsSched.size()==numCr){
+            return crsSched;
         }
 
-
-        return calOrderOfCourses(numCourses,adj);
+        return {};        
     }
 };
