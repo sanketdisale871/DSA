@@ -1,34 +1,36 @@
 class Node{
-    public:
+    private:
     Node* links[26];
-    bool isEndWrd;
+    bool endWrd;
 
+    public:
     Node(){
-        isEndWrd = false;
-        for (int i = 0; i < 26; i++) {
-            links[i] = nullptr; 
+        endWrd = false;
+        for(int i=0;i<26;i++){
+            links[i]=nullptr;
         }
     }
 
     bool containsChar(char ch){
-        return (links[ch-'a']!=NULL);
+        return links[ch-'a']!=nullptr;
     }
 
     void putKey(char ch,Node* newNode){
         links[ch-'a']=newNode;
     }
 
+    void setEnd(){
+        endWrd = true;
+    }
+
+    bool isEndWord(){
+        return endWrd;
+    }
+
     Node* getKey(char ch){
         return links[ch-'a'];
     }
 
-    void setEnd(){
-        isEndWrd = true;
-    }
-
-    bool isWordEnd(){
-        return isEndWrd;
-    }
 };
 
 class Trie {
@@ -41,45 +43,40 @@ public:
     
     void insert(string word) {
         Node* travNode = root;
-
         for(int i=0;i<word.length();i++){
             char ch = word[i];
-
             if(!travNode->containsChar(ch)){
                 travNode->putKey(ch,new Node());
             }
-            travNode=travNode->getKey(ch);
+            travNode = travNode->getKey(ch);
         }
         travNode->setEnd();
     }
     
     bool search(string word) {
         Node* travNode = root;
-
         for(int i=0;i<word.length();i++){
-            char ch = word[i];
+                char ch = word[i];
 
-            if(travNode->containsChar(ch)==false){
+                if(!travNode->containsChar(ch)){
                 return false;
             }
-            travNode = travNode->getKey(ch);
+        travNode = travNode->getKey(ch);
+
         }
-        if(travNode->isWordEnd()){
-            return true;
-        }
-        return false;
+        return travNode->isEndWord();
     }
     
     bool startsWith(string prefix) {
         Node* travNode = root;
-
         for(int i=0;i<prefix.length();i++){
-            char ch = prefix[i];
+                char ch = prefix[i];
 
-            if(travNode->containsChar(ch)==false){
+                if(!travNode->containsChar(ch)){
                 return false;
             }
-            travNode = travNode->getKey(ch);
+        travNode = travNode->getKey(ch);
+
         }
         return true;
     }
