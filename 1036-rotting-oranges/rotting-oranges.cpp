@@ -1,55 +1,54 @@
 class Solution {
+    private:
+    bool isSafe(int cr,int cc,int rows,int cols){
+        return cr>=0 && cr<rows && cc>=0 && cc<cols;
+    }
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
-
-        vector<vector<int>>vis(m,vector<int>(n,0));
-
-        // pair<cst,pair<int,int>>
+        int rows = grid.size();
+        int cols = grid[0].size();
+        vector<vector<int>>vis(rows,vector<int>(cols,0));
+        // queue<pair<time,pair<row,col>>q
         queue<pair<int,pair<int,int>>>q;
+        int minTime = 0;
+        int drow[]={-1,1,0,0};
+        int dcol[] = {0,0,1,-1};
 
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]==2){
-                    q.push({0,{i,j}});
-                    vis[i][j]=1;
+        for(int tr=0;tr<rows;tr++){
+            for(int tc=0;tc<cols;tc++){
+                if(grid[tr][tc]==2){
+                    vis[tr][tc]=1;
+                    q.push({0,{tr,tc}});
                 }
             }
         }
 
-        int drow[]={-1,1,0,0};
-        int dcol[]={0,0,-1,1};
-
-        int t = 0;
-
         while(!q.empty()){
             auto it = q.front();q.pop();
-            int cst = it.first;
-            int x = it.second.first;
-            int y = it.second.second;
-
-            t = max(t,cst);
+            int t = it.first;
+            int currRow = it.second.first;
+            int currCol = it.second.second;
+            minTime = max(t,minTime);
 
             for(int i=0;i<4;i++){
-                int newX = x + drow[i];
-                int newY = y + dcol[i];
+                int newX = drow[i]+currRow;
+                int newY = dcol[i] + currCol;
 
-                if(newX>=0 && newX<m && newY>=0 && newY<n && grid[newX][newY]==1 && !vis[newX][newY]){
+                if(isSafe(newX,newY,rows,cols) && grid[newX][newY]==1 && !vis[newX][newY]){
                     vis[newX][newY]=1;
-                    q.push({cst+1,{newX,newY}});
+                    q.push({t+1,{newX,newY}});
                 }
-            }          
+            }
         }
 
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]==1 && vis[i][j]==0){
+        // Traverse the matrix and see if is any orange which is not rotten 
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                if(grid[i][j]==1 && !vis[i][j]){
                     return -1;
                 }
             }
         }
-        return t;
-
+        return minTime;
     }
 };
