@@ -11,16 +11,15 @@
  */
 class Solution {
     private:
-    int findHt(TreeNode*root){
-        // Base case
-        if(root == NULL){
+    int findHt(TreeNode* root){
+        if(root==NULL){
             return 0;
         }
 
-        int lHt = findHt(root->left);
-        int rHt = findHt(root->right);
+        int lefHt = findHt(root->left);
+        int rigHt = findHt(root->right);
 
-        return 1+max(lHt,rHt);
+        return 1+max(lefHt,rigHt);
     }
 public:
     TreeNode* subtreeWithAllDeepest(TreeNode* root) {
@@ -28,14 +27,13 @@ public:
             return root;
         }
 
-        int lHt = findHt(root->left);
-        int rHt = findHt(root->right);
+        auto lefHt = findHt(root->left);
+        auto rigHt = findHt(root->right);
 
-        if(lHt==rHt){
+        if(lefHt==rigHt){
             return root;
         }
-
-        if(lHt<rHt){
+        else if(lefHt<rigHt){
             return subtreeWithAllDeepest(root->right);
         }
         else{
