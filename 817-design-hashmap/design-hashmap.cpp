@@ -1,20 +1,48 @@
 class MyHashMap {
 public:
-    vector<int>um;
+    vector<list<pair<int,int>>>buckets;
+    const int size = 1e4;
     MyHashMap() {
-        um.resize(1e6+1,-1);
+        buckets.resize(size);
     }
     
     void put(int key, int value) {
-        um[key]=value;
+        int bktNum = key%size;
+        auto& chain = buckets[bktNum];
+
+        for(auto &it:chain){
+            if(it.first == key){
+                it.second = value;
+                return;
+            }
+        }
+
+        chain.emplace_back(key,value);
     }
     
     int get(int key) {
-        return um[key];
+        int bktNum = key%size;
+        auto& chain = buckets[bktNum];
+
+        for(auto &it:chain){
+            if(it.first == key){
+                return it.second;
+            }
+        }
+
+        return -1;
     }
     
     void remove(int key) {
-        um[key]=-1;
+        int bktNum = key%size;
+        auto& chain = buckets[bktNum];
+
+        for(auto it= chain.begin();it!=chain.end();it++){
+            if(it->first == key){
+                chain.erase(it);
+                return;
+            }
+        }
     }
 };
 
