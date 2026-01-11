@@ -1,42 +1,39 @@
 class Solution {
 public:
     vector<int> asteroidCollision(vector<int>& ast) {
-        vector<int>ans;
-
-        vector<int>rght;
-        stack<int>left;
-
         int n = ast.size();
+        vector<int>res;
+        vector<int>riArmy;
+        stack<int>lefArmy;
 
         for(int i=n-1;i>=0;i--){
             if(ast[i]<0){
-                left.push(abs(ast[i]));
+                lefArmy.push(abs(ast[i]));
             }
             else{
-
-                while(!left.empty() && left.top()<ast[i]){
-                    left.pop();
+                
+                while(!lefArmy.empty() && lefArmy.top()<ast[i]){
+                    lefArmy.pop();
                 }
 
-                if(!left.empty() && left.top()==ast[i]){
-                    left.pop();
+                if(!lefArmy.empty() && lefArmy.top()==ast[i]){
+                    lefArmy.pop();
                 }
-                else if(left.empty()){
-                    rght.push_back(ast[i]);
-                }           
-
+                else if(lefArmy.empty()){
+                    riArmy.push_back(ast[i]);
+                } 
             }
         }
 
-        while(!left.empty()){
-            ans.push_back(-left.top());
-            left.pop();
+        while(!lefArmy.empty()){
+            res.push_back(-lefArmy.top());
+            lefArmy.pop();
         }
 
-        for(int i=rght.size()-1;i>=0;i--){
-            ans.push_back(rght[i]);
+        reverse(riArmy.begin(),riArmy.end());
+        for(auto it:riArmy){
+            res.push_back(it);
         }
-
-        return ans;
+        return res;
     }
 };
