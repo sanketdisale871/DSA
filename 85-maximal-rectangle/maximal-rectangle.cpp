@@ -1,70 +1,78 @@
 class Solution {
-    // DSA Student : Sanket Disale
-public:
+    private:
 
-    int calArea(vector<int>&arr){
+    vector<int>findNexSmaller(vector<int>&arr){
         int n = arr.size();
-        vector<int>nextSmall(n),prevSmall(n);
+        vector<int>res(n);
         stack<int>st;
         st.push(-1);
-        // Finding next smaller
+
         for(int i=n-1;i>=0;i--){
             while(st.top()!=-1 && arr[st.top()]>=arr[i]){
                 st.pop();
             }
-            nextSmall[i]=st.top();
+            res[i]=st.top();
             st.push(i);
         }
 
-        while(!st.empty()){
-            st.pop();
-        }
+        return res;
+    }
+
+    vector<int>findPrevSmaller(vector<int>arr){
+        int n = arr.size();
+        vector<int>res(n);
+        stack<int>st;
         st.push(-1);
 
-        // Finding Prev smaller
         for(int i=0;i<n;i++){
             while(st.top()!=-1 && arr[st.top()]>=arr[i]){
                 st.pop();
             }
-            prevSmall[i]=st.top();
+            res[i]=st.top();
             st.push(i);
         }
 
-        // Calculating maxArea
-        int maxArea = INT_MIN;
-
-        for(int i=0;i<n;i++){
-            int len = arr[i];
-
-            if(nextSmall[i]==-1){
-                nextSmall[i]=n;
-            }
-            int b = nextSmall[i]-prevSmall[i]-1;
-
-            maxArea = max(maxArea,len*b);
-        }
-        return maxArea;
+        return res;
     }
 
+    int findArea(vector<int>arr){
+        vector<int>prevSmaller = findPrevSmaller(arr);
+        vector<int>nexSmaller = findNexSmaller(arr);
+        int maxiArea = 0;
+        for(int i=0;i<arr.size();i++){
+            int len = arr[i];
+            int br = (nexSmaller[i]==-1?arr.size():nexSmaller[i]) - prevSmaller[i]-1;
+
+            int currArea = len*br;
+            maxiArea = max(maxiArea,currArea);
+        }
+        return maxiArea;
+    }
+public:
     int maximalRectangle(vector<vector<char>>& matrix) {
+        
+        int maxiArea = 0;
         int rows = matrix.size();
         int cols = matrix[0].size();
 
-        vector<int>v(cols,0);
+        vector<int>arr(cols,0);
 
-        int maxArea = INT_MIN;
         for(int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
                 if(matrix[i][j]=='1'){
-                    v[j]+=1;
+                    arr[j]+=1;
                 }
                 else{
-                    v[j]=0;
+                    arr[j]=0;
                 }
             }
-            int area = calArea(v);
-            maxArea = max(maxArea,area);
+
+            int currArea = findArea(arr);
+            maxiArea = max(maxiArea,currArea);
         }
-        return maxArea;
+
+
+        return maxiArea;
+
     }
 };
