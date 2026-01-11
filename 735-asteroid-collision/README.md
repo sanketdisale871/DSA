@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/asteroid-collision">Asteroid Collision</a></h2> <img src='https://img.shields.io/badge/Difficulty-Medium-orange' alt='Difficulty: Medium' /><hr><p>We are given an array <code>asteroids</code> of integers representing asteroids in a row.</p>
+<h2><a href="https://leetcode.com/problems/asteroid-collision">Asteroid Collision</a></h2> <img src='https://img.shields.io/badge/Difficulty-Medium-orange' alt='Difficulty: Medium' /><hr><p>We are given an array <code>asteroids</code> of integers representing asteroids in a row. The indices of the asteroid in the array represent their relative position in space.</p>
 
 <p>For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.</p>
 
@@ -27,6 +27,14 @@
 <strong>Input:</strong> asteroids = [10,2,-5]
 <strong>Output:</strong> [10]
 <strong>Explanation:</strong> The 2 and -5 collide resulting in -5. The 10 and -5 collide resulting in 10.
+</pre>
+
+<p><strong class="example">Example 4:</strong></p>
+
+<pre>
+<strong>Input:</strong> asteroids = [3,5,-6,2,-1,4]​​​​​​​
+<strong>Output:</strong> [-6,2,4]
+<strong>Explanation:</strong> The asteroid -6 makes the asteroid 3 and 5 explode, and then continues going left. On the other side, the asteroid 2 makes the asteroid -1 explode and then continues going right, without reaching asteroid 4.
 </pre>
 
 <p>&nbsp;</p>
