@@ -1,38 +1,39 @@
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        unordered_set<string>um(wordList.begin(),wordList.end());
-        queue<pair<string,int>>q;
-        q.push({beginWord,1});
+        unordered_set<string>avlWrds(wordList.begin(),wordList.end());
 
-        if(um.count(beginWord)){
-            um.erase(beginWord);
-        }
-
+        queue<pair<int,string>>q;
+        q.push({1,beginWord});
 
         while(!q.empty()){
             auto it = q.front();q.pop();
-            string wrd = it.first;int t = it.second;
+            int wrdsCnt = it.first;
+            string currWrd  = it.second;
 
-            if(wrd == endWord){
-                return t;
+
+            if(currWrd==endWord){
+                return wrdsCnt;
             }
 
-            for(int i=0;i<wrd.length();i++){
-                char ch = wrd[i];
+            for(int i=0;i<currWrd.length();i++){
+                char runChar = currWrd[i];
 
-                for(char chh = 'a';chh<='z';chh++){
-                    wrd[i] = chh;
+                for(char ch='a';ch<='z';ch++){
+                    if(ch!=runChar){
+                        currWrd[i]=ch;
 
-                    if(um.count(wrd)){
-                        q.push({wrd,t+1});
-                        um.erase(wrd);
+                        if(avlWrds.count(currWrd)){
+                            q.push({wrdsCnt+1,currWrd});
+                            avlWrds.erase(currWrd);
+                        }
                     }
                 }
-                wrd[i]=ch;
+                currWrd[i]=runChar;
             }
         }
 
+        // no sequence
         return 0;
     }
 };
