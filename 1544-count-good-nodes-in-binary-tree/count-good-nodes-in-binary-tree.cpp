@@ -11,31 +11,24 @@
  */
 class Solution {
     private:
-    int ans = 0;
-
-    void traversal(TreeNode*root,int maxi){
-        // base case
-        if(root ==NULL){
-            return ;
+    int cnt = 0;
+    void traverse(TreeNode*root, int maxiNode){
+        if(root==NULL){
+            return;
         }
 
-        maxi = max(maxi,root->val);
-
-        if(maxi<=root->val){
-            ans++;
+        if(root->val >= maxiNode){
+            cnt++;
         }
+        maxiNode = max(maxiNode,root->val);
 
-        traversal(root->left,maxi);
-        traversal(root->right,maxi);
+        traverse(root->left,maxiNode);
+        traverse(root->right,maxiNode);
     }
-    
 public:
     int goodNodes(TreeNode* root) {
-        // int ans = 0;
-        int maxi = INT_MIN;
+        traverse(root,-1e5);
 
-        traversal(root,maxi);
-
-        return ans;
+        return cnt;
     }
 };
