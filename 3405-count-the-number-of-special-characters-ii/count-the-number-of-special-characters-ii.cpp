@@ -1,38 +1,32 @@
 class Solution {
 public:
     int numberOfSpecialChars(string word) {
-        int n = word.length();
+        // lowercase occurance should appear before the first occurance
+        // firstLowerCaseOccurance, 
+        // firstUppercase occurance
+        // ek hi bar change goga
+        int cnt = 0;
+        vector<int>lstOccurLowerCase(26,-1);
+        vector<int>fstOccurUpperCase(26,-1);
 
-        // unordered_map<int,int>lwr;
-        // unordered_map<int,int>upr;
-
-        vector<int>lwr(26,-1);
-        vector<int>upr(26,-1);
-        
-     
-        
         for(int i=0;i<word.length();i++){
             char ch = word[i];
-            
+
             if(ch>='a' && ch<='z'){
-                lwr[ch-'a']=i;
+                lstOccurLowerCase[ch-'a']=i;
             }
             else{
-                if(upr[ch-'A']==-1){
-                    upr[ch-'A']=i;
-                }                
-              }
+                if(fstOccurUpperCase[ch-'A']==-1){
+                    fstOccurUpperCase[ch-'A']=i;
+                }
             }
+        }
 
-        int cnt = 0;
-        
         for(int i=0;i<26;i++){
-            if(lwr[i]!=-1 && upr[i]!=-1 && lwr[i]<upr[i]){
+            if(lstOccurLowerCase[i]!=-1 && fstOccurUpperCase[i]!=-1 && lstOccurLowerCase[i]<fstOccurUpperCase[i]){
                 cnt++;
             }
         }
-        
-        
         return cnt;
     }
 };
