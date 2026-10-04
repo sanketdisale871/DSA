@@ -19,27 +19,21 @@ public:
 class Solution {
 public:
     Node* connect(Node* root) {
-        if(root ==NULL){
-            return root;
-        }
-        // By Using level wise traversal 
-        Node* curr = root;
+        Node* trav = root;
 
-        while(curr!=NULL && curr->left!=NULL){
-            Node* tr = curr;
+        while(trav!=NULL && trav->left!=NULL){
+            Node* curr = trav;
 
-            while(true){
-                tr->left->next = tr->right;
+            while(curr!=NULL){
+                curr->left->next = curr->right;
 
-                if(tr->next==NULL){break;}
-                tr->right->next = tr->next->left;
-
-                tr = tr->next;
+                if(curr->next){
+                    curr->right->next = curr->next->left;
+                }
+                curr = curr->next;
             }
-            curr=curr->left;
-        }    
-        
+            trav = trav->left;
+        }
         return root;
-
     }
 };
