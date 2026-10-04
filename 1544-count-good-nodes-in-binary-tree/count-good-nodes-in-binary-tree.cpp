@@ -12,22 +12,27 @@
 class Solution {
     private:
     int cnt = 0;
-    void traverse(TreeNode*root, int maxiNode){
+
+    void traverse(TreeNode* root,int maxVal){
         if(root==NULL){
             return;
         }
 
-        if(root->val >= maxiNode){
+        if(root->val >= maxVal){
             cnt++;
         }
-        maxiNode = max(maxiNode,root->val);
 
-        traverse(root->left,maxiNode);
-        traverse(root->right,maxiNode);
+        traverse(root->left, max(maxVal,root->val));
+        traverse(root->right, max(maxVal,root->val));
     }
 public:
     int goodNodes(TreeNode* root) {
-        traverse(root,-1e5);
+        // node is Good => Path from root to X, there is no nodes with value greater than X.
+        if(root==NULL){
+            return 0;
+        }
+
+        traverse(root,root->val);
 
         return cnt;
     }
